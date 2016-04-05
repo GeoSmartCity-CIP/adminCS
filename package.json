@@ -1,21 +1,21 @@
 {
-  "name": "adminCS",
+  "name": "gsc-adminCS",
   "description": "Administration platform for crowd-sourcing",
   "version": "0.1.0",
-  "homepage": "https://github.com/GeoSmartCity-CIP/adminCS",
+  "homepage": "https://github.com/GeoSmartCity-CIP/gsc-adminCS",
   "author": "GSC partners",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GeoSmartCity-CIP/adminCS"
+    "url": "git+https://github.com/GeoSmartCity-CIP/gsc-adminCS"
   },
   "bugs": {
-    "url": "https://github.com/GeoSmartCity-CIP/adminCS/issues"
+    "url": "https://github.com/GeoSmartCity-CIP/gsc-adminCS/issues"
   },
   "license": "MIT",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/GeoSmartCity-CIP/adminCS/LICENSE"
+      "url": "https://github.com/GeoSmartCity-CIP/gsc-adminCS/LICENSE"
     }
   ],
   "main": "/",
@@ -23,25 +23,19 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt jasmine"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-nodeunit": "^0.4.1",
-    "grunt-contrib-uglify": "^0.11.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-jscs": "^2.3.0",
-    "grunt-jsdoc": "^1.0.0"
-  },
-  "dependencies": {
-    "bootstrap": "^3.3.6",
-    "jquery.1": "^1.0.0",
-    "openlayers": "^3.13.0"
+    "gulp": "^3.9.1"
   },
   "keywords": [],
   "directories": {
     "doc": "doc"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "gsc": "^0.1.0",
+    "jquery": "^2.2.2",
+    "openlayers": "^3.15.0"
   }
 }
