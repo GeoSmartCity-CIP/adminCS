@@ -36,6 +36,7 @@
     "bootstrap": "^3.3.6",
     "gsc": "^0.1.0",
     "jquery": "^2.2.2",
-    "openlayers": "^3.15.0"
+    "openlayers": "^3.15.0",
+    "proj4": "^2.3.14"
   }
 }
