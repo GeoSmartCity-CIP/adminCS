@@ -2,11 +2,17 @@ var cs = cs || {};
 
 cs.map_ = {};
 cs.eventSource_ = new ol.source.Vector({});
+
+cs.clusterSource_ = new ol.source.Cluster({
+    distance: 10,
+    source: cs.eventSource_
+});
+
 cs.sideBar_ = {};
-cs.datagrid_ = [];
 
 cs.init = function (map) {
     cs.map_ = map;
+    this.initEvents();
 };
 
 
@@ -47,27 +53,17 @@ cs.events2features = function(events){
         cs.eventSource_.addFeature(cs.event2feature(event));
     });
     this.source2map();
-    this.initData();
+    cs.datagrid.updateData();
 };
 
 
 cs.source2map = function() {
+    var styleCache = {};
     cs.layer_ =  new ol.layer.Vector({
-        source: cs.eventSource_
+        source: cs.clusterSource_
     });
     cs.map_.addLayer(cs.layer_);
     cs.fit2features();
-};
-
-
-cs.initData = function() {
-    cs.datagrid_ = [];
-    cs.eventSource_.forEachFeature(function(feature){
-        var properties = feature.getProperties();
-        delete properties['location'];
-        delete properties['geometry'];
-        cs.datagrid_.push(properties);
-    });
 };
 
 
@@ -77,5 +73,15 @@ cs.fit2features = function() {
 };
 
 cs.initSideBar = function() {
-    cs.sideBar_ = $('#sidebar').sidebar('sidebar', {position: 'right'});
+    cs.sideBar_ = $('#sidebar').sidebar();
+};
+
+cs.initEvents = function() {
+    this.map_.on('singleclick', function(evt) {
+        cs.map_.forEachFeatureAtPixel(evt.pixel,
+            function(feature, layer) {
+            //TODO cluster implement
+                cs.featureDetail(feature.get('features')[0]);
+            });
+    });
 };

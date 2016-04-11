@@ -27,7 +27,15 @@ var layerReggio_Emilia = new ol.layer.Image({
     })
 });
 
-
+var attribution  = new ol.Attribution({
+    html: '<a href="http://link">TEXT</a>',
+    options: {
+        collapsible: true,
+        label: 'A',
+        collapsed: true,
+        tipLabel: 'yooo'
+    }
+});
 
 var layerOSM =  new ol.layer.Tile({
     source: new ol.source.OSM()
@@ -38,10 +46,6 @@ var layerMapQuest =  new ol.layer.Tile({
     source: new ol.source.MapQuest({layer: 'osm'})
 });
 
-
-gscMap.addLayer(layerMapQuest);
-
-
+gscMap.addLayer(layerOSM);
 
 cs.getAllEvents();
-

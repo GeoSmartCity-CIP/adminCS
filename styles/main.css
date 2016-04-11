@@ -8,3 +8,26 @@ html, body, #map {
     height: 100%;
     font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
+#tableWrapper {
+
+    width: 100%;
+
+    overflow: auto;
+}
+
+.cs-datagrid-table{
+
+}
+
+.cs-datagrid-tableRowItem{
+    cursor: pointer;
+}
+
+.cs-featureDetail-wrapper{
+    padding: 8px;
+}
+
+.cs-featureDetail-property{
+    font-weight: bold;
+}
