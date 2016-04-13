@@ -80,8 +80,26 @@ cs.initEvents = function() {
     this.map_.on('singleclick', function(evt) {
         cs.map_.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
-            //TODO cluster implement
+                //TODO cluster implement
                 cs.featureDetail(feature.get('features')[0]);
             });
     });
 };
+
+cs.evSchema = {
+    'name' : 'string',
+    'datetime' : 'datetime',
+    'description' : 'string',
+    'id' : 'id',
+    'media' : 'media',
+    'priority' : 'priority',
+    'user' : 'user',
+    'status' : 'status',
+    'location' : 'geometry',
+    'geometry' : 'geometry',
+    'tags' : 'tags'
+};
+
+cs.dgAttrs = ['name','description','datetime','media','priority','user','status','location','tags'];
+
+cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags'];

@@ -34,9 +34,11 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "date": "^1.0.2",
+    "datejs": "^1.0.0-rc3",
     "gsc": "^0.1.0",
     "jquery": "^2.2.2",
-    "openlayers": "^3.15.0",
+    "openlayers": "^3.15.1",
     "proj4": "^2.3.14"
   }
 }

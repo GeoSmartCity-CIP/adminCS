@@ -10,24 +10,48 @@ html, body, #map {
 }
 
 #tableWrapper {
-
     width: 100%;
-
     overflow: auto;
 }
 
 .cs-datagrid-table{
+    font-family: Tahoma, Geneva, sans-serif !important;
+}
 
+.cs-datatype-media-item-image{
+    width: 18px;
+}
+
+.cs-datatype-fd-media-item-image {
+    width: 90px;
+    margin: 4px 10px 4px 10px;
 }
 
 .cs-datagrid-tableRowItem{
     cursor: pointer;
 }
 
+
 .cs-featureDetail-wrapper{
-    padding: 8px;
+    font-family: Tahoma, Geneva, sans-serif !important;
+    padding: 0  10px 10px 10px;
 }
 
-.cs-featureDetail-property{
+.cs-featureDetail-item-wrapper{
+    padding: 0;
+    margin: 2px;
+}
+
+.cs-featureDetail-item-name{
+    background-color: #7D9ABE;
+    padding: 2px;
     font-weight: bold;
+}
+
+.cs-featureDetail-item-value{
+    font-style: italic;
+}
+
+.cs-datatype-fd-datetime-date{
+    margin-right:8px;
 }

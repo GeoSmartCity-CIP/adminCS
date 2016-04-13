@@ -4,18 +4,20 @@ cs.datagrid = {};
 
 cs.datagrid.data_ = [];
 
-cs.datagrid.attributes_ = [];
 
 cs.datagrid.updateData = function() {
+
     cs.eventSource_.forEachFeature(function(feature){
+
         var properties = feature.getProperties();
-        delete properties['location'];
-        delete properties['geometry'];
-        cs.datagrid.data_.push(properties);
+        var attrs = {};
+        for (var key in properties) {
+            attrs[key] = cs.datatype.constructor(key, properties[key]);
+        }
+        cs.datagrid.data_.push(attrs);
     });
 
     if (cs.datagrid.data_.length>0) {
-        cs.datagrid.attributes_ = Object.keys(cs.datagrid.data_[0]);
         cs.datagrid.renderTable();
     }
 };
@@ -31,9 +33,9 @@ cs.datagrid.renderTableHeader = function() {
     var row = $('<tr>',{class:'cs-datagrid-tr'})
         .appendTo(thead);
 
-    for (attr in cs.datagrid.attributes_){
+    for (attr in cs.dgAttrs){
         $('<th>',{class:'cs-datagrid-tableHeaderItem'})
-            .html(cs.datagrid.attributes_[attr])
+            .html(cs.dgAttrs[attr])
             .appendTo(row);
     }
 
@@ -50,14 +52,18 @@ cs.datagrid.renderTableItems = function() {
     };
 
     var renderRows_ = function(row) {
-        var tableRow = $('<tr>',{class:'cs-datagrid-tableRow','data-cs-featureId':row.id});
-        for (var attr in cs.datagrid.attributes_) {
-
-            var key = cs.datagrid.attributes_[attr];
-
-            $('<td>',{class:'cs-datagrid-tableRowItem'})
-                .html(row[key])
-                .appendTo(tableRow)
+        var tableRow = $('<tr>',{class:'cs-datagrid-tableRow','data-cs-featureId':row.id.getValue()});
+        for (var attr in cs.dgAttrs) {
+            var key = cs.dgAttrs[attr];
+            if (row[key]) {
+                $('<td>',{class:'cs-datagrid-tableRowItem'})
+                    .html(row[key].getDgValue())
+                    .appendTo(tableRow);
+            } else {
+                $('<td>',{class:'cs-datagrid-tableRowItem'})
+                    .html(cs.datatype.empty().getDgValue())
+                    .appendTo(tableRow);
+            }
         }
         tableRow.on('click',handleOnClick_);
 
