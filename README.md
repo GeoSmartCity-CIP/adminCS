@@ -7,6 +7,7 @@ and [gsc-client library](https://github.com/GeoSmartCity-CIP/gsc-client) to prov
 
 ## To install
 ```bash
+
 # clone repository
 git clone https://github.com/GeoSmartCity-CIP/gsc-adminCS.git
 
@@ -16,6 +17,7 @@ npm install
 # to build entire project 
 grunt
 
+```
 ## Funding
 The development of adminCS is part-funded by the European Commission through the GeoSmartCity project.
 
