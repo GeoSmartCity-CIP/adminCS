@@ -6,12 +6,16 @@
 
     <title>Example of gsc.map</title>
 
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link href="node_modules/openlayers/dist/ol.css" rel="stylesheet">
     <script src="node_modules/openlayers/dist/ol-debug.js"></script>
 
-    <script src="node_modules/jquery/dist/jquery.js"></script>
+
 
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
@@ -35,51 +39,63 @@
 </head>
 <body>
 
-    <div id="sidebar" class="sidebar collapsed">
+<div id="sidebar" class="sidebar collapsed">
 
-        <div class="sidebar-tabs">
-            <ul role="tablist">
-                <li><a href="#filterForm" role="tab"><i class="fa fa-filter"></i></a></li>
-                <li><a href="#datagrid" role="tab"><i class="fa fa-table"></i></a></li>
-                <li><a href="#featureDetail" role="tab"><i class="fa fa-map-marker"></i></a></li>
-            </ul>
-        </div>
+    <div class="sidebar-tabs">
+        <ul role="tablist">
+            <li><a href="#userProfile" role="tab"><i class="fa fa-user"></i></a></li>
+            <li><a href="#filterForm" role="tab"><i class="fa fa-filter"></i></a></li>
+            <li><a href="#datagrid" role="tab"><i class="fa fa-table"></i></a></li>
+            <li><a href="#featureDetail" role="tab"><i class="fa fa-map-marker"></i></a></li>
+        </ul>
 
-        <!-- Tab panes -->
-        <div class="sidebar-content">
-            <div class="sidebar-pane" id="filterForm">
-                <h1 class="sidebar-header">
-                    Filter form
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1>
-
-                <form action="action_page.php">
-                    <fieldset>
-                        <legend>Personal information:</legend>
-                        First name:<br>
-                        <input type="text" name="firstname" value="Mickey"><br>
-                        Last name:<br>
-                        <input type="text" name="lastname" value="Mouse"><br><br>
-                        <input type="submit" value="Submit">
-                    </fieldset>
-                </form>
-
-
-            </div>
-
-            <div class="sidebar-pane" id="datagrid"></div>
-
-            <div class="sidebar-pane" id="featureDetail">
-
-                no features selected
-
-            </div>
-
-        </div>
+        <ul role="tablist">
+            <li><a href="#tabButton" role="button"><i class="fa fa-caret-left"></i></a></li>
+        </ul>
     </div>
 
-    <div id='map' class="sidebar-map"></div>
+    <!-- Tab panes -->
+    <div class="sidebar-content">
+        <div class="sidebar-pane" id="caret"> </div>
 
-    <script src="src/app.js"></script>
+        <div class="sidebar-pane" id="userProfile">
+            <h1 class="sidebar-header">
+                User Profile
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+
+            <form action="#">
+                <fieldset>
+                    <legend>Personal information:</legend>
+                    First name:<br>
+                    <input type="text" name="firstname" value="Mickey"><br>
+                    Last name:<br>
+                    <input type="text" name="lastname" value="Mouse"><br><br>
+                    <input type="submit" value="Submit">
+                </fieldset>
+            </form>
+        </div>
+
+
+        <div class="sidebar-pane" id="filterForm">
+            <h1 class="sidebar-header">
+                Filter form
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+        </div>
+
+
+        <div class="sidebar-pane" id="datagrid"></div>
+
+        <div class="sidebar-pane" id="featureDetail">
+            no features selected
+        </div>
+
+    </div>
+</div>
+
+<div id='map' class="sidebar-map"> <div id="popup"></div> </div>
+
+<script src="src/app.js"></script>
 </body>
 </html>

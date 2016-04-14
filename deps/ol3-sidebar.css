@@ -4,7 +4,9 @@
   bottom: 0;
   width: 100%;
   overflow: auto;
-  z-index: 2000; }
+  z-index: 2000;
+  box-shadow: 1px 0px 4px 0px rgba(0,0,0,0.5);
+}
 .sidebar.collapsed {
   width: 40px; }
 @media (min-width: 768px) {
@@ -32,7 +34,7 @@
   top: 0;
   bottom: 0;
   height: 100%;
-  background-color: rgba(0, 60, 136, 0.5); }
+  background-color: #4973A8 }
 .sidebar-left .sidebar-tabs {
   left: 0; }
 .sidebar-right .sidebar-tabs {
@@ -182,4 +184,5 @@
   .sidebar-right.collapsed ~ .sidebar-map .ol-rotate,
   .sidebar-right.collapsed ~ .sidebar-map .ol-attribution,
   .sidebar-right.collapsed ~ .sidebar-map .ol-full-screen {
-    margin-right: 52px; } }
+    margin-right: 52px; }
+}

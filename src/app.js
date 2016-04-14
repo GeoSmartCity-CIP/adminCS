@@ -46,6 +46,25 @@ var layerMapQuest =  new ol.layer.Tile({
     source: new ol.source.MapQuest({layer: 'osm'})
 });
 
-gscMap.addLayer(layerOSM);
+var statemenLayer =  new ol.layer.Tile({
+    source: new ol.source.Stamen({
+        layer: 'watercolor' //terrain, toner, watercolor
+    })
+});
+var statemenLayer2=     new ol.layer.Tile({
+    source: new ol.source.Stamen({
+        layer: 'terrain-labels'
+    })
+});
+
+
+var mapshakers =  new ol.layer.Tile({
+    source: new ol.source.XYZ({
+        url: 'http://{a-d}.mapshakers.com:25095/cijywvxlm004rtikohhqf99jv/greyBright2/256/{z}/{x}/{y}.png'
+    })
+});
+
+
+gscMap.addLayer(mapshakers);
 
 cs.getAllEvents();

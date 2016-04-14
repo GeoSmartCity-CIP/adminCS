@@ -9,6 +9,18 @@ html, body, #map {
     font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
+.ol-control {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.5);
+}
+.ol-control button{
+    margin: 0!important;
+    background-color: #4973A8;
+    margin-top: 2px;
+}
+
 #tableWrapper {
     width: 100%;
     overflow: auto;
@@ -43,9 +55,13 @@ html, body, #map {
 }
 
 .cs-featureDetail-item-name{
-    background-color: #7D9ABE;
+    display:inline-block;
+    width: 120px;
     padding: 2px;
     font-weight: bold;
+}
+.cs-featureDetail-item-name:after{
+    content: ': ';
 }
 
 .cs-featureDetail-item-value{

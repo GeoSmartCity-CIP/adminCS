@@ -45,11 +45,11 @@ cs.featureDetail.renderProperties = function(){
         var itemWrapper = $('<div>',{class: 'cs-featureDetail-item-wrapper'})
         .appendTo(wrapper);
 
-        $('<div>',{class: 'cs-featureDetail-item-name'})
+        $('<span>',{class: 'cs-featureDetail-item-name'})
             .html(key)
             .appendTo(wrapper);
 
-        $('<div>',{class: 'cs-featureDetail-item-value'})
+        $('<span>',{class: 'cs-featureDetail-item-value'})
             .html(item.getFdValue())
             .appendTo(wrapper);
     }

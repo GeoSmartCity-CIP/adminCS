@@ -4,7 +4,7 @@ cs.map_ = {};
 cs.eventSource_ = new ol.source.Vector({});
 
 cs.clusterSource_ = new ol.source.Cluster({
-    distance: 10,
+    distance: 30,
     source: cs.eventSource_
 });
 
@@ -12,6 +12,17 @@ cs.sideBar_ = {};
 
 cs.init = function (map) {
     cs.map_ = map;
+
+
+    cs.popup_ = new ol.Overlay({
+        element: document.getElementById('popup'),
+        positioning: 'bottom-center',
+        stopEvent: false
+    });
+
+    map.addOverlay(cs.popup_);
+
+
     this.initEvents();
 };
 
@@ -42,6 +53,11 @@ cs.event2feature = function(event){
         name: 'event'
     });
 
+    if (event.status == 'created') {
+        feature.setStyle(cs.icon.ok);
+    } else {
+        feature.setStyle(cs.icon.ko);
+    }
     feature.setId(event.id);
     feature.setProperties(event);
     return feature;
@@ -58,9 +74,10 @@ cs.events2features = function(events){
 
 
 cs.source2map = function() {
-    var styleCache = {};
     cs.layer_ =  new ol.layer.Vector({
-        source: cs.clusterSource_
+        //source: cs.eventSource_
+        source: cs.clusterSource_,
+        style: cs.style
     });
     cs.map_.addLayer(cs.layer_);
     cs.fit2features();
@@ -77,14 +94,53 @@ cs.initSideBar = function() {
 };
 
 cs.initEvents = function() {
-    this.map_.on('singleclick', function(evt) {
-        cs.map_.forEachFeatureAtPixel(evt.pixel,
-            function(feature, layer) {
-                //TODO cluster implement
-                cs.featureDetail(feature.get('features')[0]);
-            });
-    });
+
+
+    // http://openlayers.org/en/v3.8.1/examples/icon.html?q=style+icon
+    var closePop = function(e) {
+        $('#popup').popover('destroy');
+        return
+    };
+
+    var singleClick = function(evt){
+        cs.map_.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
+            cs.clickFeatures(feature,layer,evt)
+        });
+    };
+
+    //this.map_.on('pointermove', closePop);
+
+    this.map_.getView().on('change:center', closePop);
+
+    this.map_.on('singleclick', singleClick);
 };
+
+cs.icon = {};
+
+cs.icon.ko  = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        // imgSize: [20,20],
+        scale: 0.08,
+        opacity: 1,
+        src: 'images/icons/fire.svg'
+    }))
+});
+
+
+cs.icon.ok  = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        // imgSize: [20,20],
+        scale: 0.08,
+        opacity: 1,
+        src: 'images/icons/star.svg'
+    }))
+});
 
 cs.evSchema = {
     'name' : 'string',
@@ -97,9 +153,81 @@ cs.evSchema = {
     'status' : 'status',
     'location' : 'geometry',
     'geometry' : 'geometry',
-    'tags' : 'tags'
+    'tags' : 'tags',
+    'comments' : 'comments'
 };
 
-cs.dgAttrs = ['name','description','datetime','media','priority','user','status','location','tags'];
+cs.dgAttrs = ['name','description','datetime','media','priority','user','status','location','tags','comments'];
 
-cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags'];
+cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','comments'];
+
+cs.styleCache = {};
+
+cs.style = function(feature, resolution) {
+    var style = cs.styleCache[size];
+    var size = feature.get('features').length;
+    if (size == 1){
+        var f = feature.get('features')[0]
+        if (f.get('status') == 'created') {
+            return cs.icon.ko;
+        } else {
+            return cs.icon.ok;
+        }
+    }
+
+    if (!style) {
+        style = [new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 10,
+                stroke: new ol.style.Stroke({
+                    color: '#fff'
+                }),
+                fill: new ol.style.Fill({
+                    color: '#3399CC'
+                })
+            }),
+            text: new ol.style.Text({
+                text: size.toString(),
+                fill: new ol.style.Fill({
+                    color: '#fff'
+                })
+            })
+        })];
+        cs.styleCache[size] = style;
+    }
+    return style;
+};
+
+cs.clickFeatures = function(feature,layer,evt) {
+
+     var size = feature.get('features').length;
+
+    if (size > 1) {
+        cs.popup_.setPosition(evt.coordinate);
+
+        var content = $('<div>');
+
+        feature.get('features').forEach(function(item) {
+
+            $('<div>')
+                .html(item.get('name'))
+                .appendTo(content)
+
+        });
+
+        $('#popup').popover({
+            'placement': 'top',
+            'html': true,
+            'content': content
+        });
+        $('#popup').popover('show');
+
+
+    } else {
+        cs.featureDetail(feature.get('features')[0]);
+    }
+
+
+};
+
+

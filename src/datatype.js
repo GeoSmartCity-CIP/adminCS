@@ -57,7 +57,7 @@ cs.datatype.datetime = function(val){
     };
 
     dt.getFdValue = function() {
-        var wrapper = $('<div>',{});
+        var wrapper = $('<span>',{});
         $('<span>',{class: 'cs-datatype-fd-datetime-date'})
             .html(datime.toString('yyyy/M/d'))
             .appendTo(wrapper);
@@ -80,11 +80,17 @@ cs.datatype.datetime = function(val){
 cs.datatype.media = function(val)  {
     var dt = {};
 
+
     dt.getValue = function() {
         return val;
     };
 
     dt.getFdValue = function() {
+
+        if (val == null) {
+            return cs.datatype.empty().getFdValue();
+        }
+
         var wrapper = $('<div>',{class: 'cs-datatype-fd-media'});
         function createMedia(item) {
             var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-fd-media-item'})
@@ -100,6 +106,11 @@ cs.datatype.media = function(val)  {
     };
 
     dt.getDgValue = function() {
+
+        if (val == null) {
+            return cs.datatype.empty().getDdValue();
+        }
+
         var wrapper = $('<div>',{class: 'cs-datatype-media'});
         function createMedia(item) {
            var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-media-item'})
@@ -226,6 +237,25 @@ cs.datatype.id = function(val) {
     return dt;
 };
 
+cs.datatype.comments = function(val) {
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getDgValue = function() {
+        var count = val.length;
+        return count;
+    };
+
+    return dt;
+};
+
 
 cs.datatype.empty = function() {
     var dt = {};
@@ -253,7 +283,7 @@ cs.datatype.types_ = {
     'number': cs.datatype.number,
     'priority': cs.datatype.priority,
     'status': cs.datatype.status,
-    'comment': cs.datatype.comment,
+    'comments': cs.datatype.comments,
     'user': cs.datatype.user,
     'tags': cs.datatype.tags,
     'geometry': cs.datatype.geometry,
