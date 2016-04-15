@@ -142,24 +142,6 @@ cs.icon.ok  = new ol.style.Style({
     }))
 });
 
-cs.evSchema = {
-    'name' : 'string',
-    'datetime' : 'datetime',
-    'description' : 'string',
-    'id' : 'id',
-    'media' : 'media',
-    'priority' : 'priority',
-    'user' : 'user',
-    'status' : 'status',
-    'location' : 'geometry',
-    'geometry' : 'geometry',
-    'tags' : 'tags',
-    'comments' : 'comments'
-};
-
-cs.dgAttrs = ['name','description','datetime','media','priority','user','status','location','tags','comments'];
-
-cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','comments'];
 
 cs.styleCache = {};
 
@@ -199,35 +181,71 @@ cs.style = function(feature, resolution) {
 };
 
 cs.clickFeatures = function(feature,layer,evt) {
+    var size = feature.get('features').length;
 
-     var size = feature.get('features').length;
+    cs.popup_.setPosition(evt.coordinate);
+    var content = $('<div>');
+    feature.get('features').forEach( function(item) {
+        content.append(cs.renderFeaturePopup(item));
+    });
 
-    if (size > 1) {
-        cs.popup_.setPosition(evt.coordinate);
+    var popElm = $('#popup');
 
-        var content = $('<div>');
+    popElm.popover("destroy").popover({
+        'placement': 'top',
+        'html': true,
+        'content': content
+    });
 
-        feature.get('features').forEach(function(item) {
+    popElm.popover('show');
+};
 
-            $('<div>')
-                .html(item.get('name'))
-                .appendTo(content)
+cs.renderFeaturePopup = function(feature) {
 
-        });
+    var goTo = function(evt) {
+        cs.featureDetail(feature);
+    };
 
-        $('#popup').popover({
-            'placement': 'top',
-            'html': true,
-            'content': content
-        });
-        $('#popup').popover('show');
+    var wrapper = $('<div>',{class:'cs-feature-popup-item-wrapper'})
+        .on('click',goTo);
 
+    $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
+    $('<span>', {class:'fa fa-info-circle cs-feature-popup-item-icon'}).appendTo(wrapper);
 
-    } else {
-        cs.featureDetail(feature.get('features')[0]);
-    }
+    return wrapper;
+};
 
+cs.zoom2feature = function(feature) {
+
+    var coors = (feature.getGeometry().getCoordinates());
+    cs.map_.getView().setCenter(coors);
+    cs.map_.getView().setZoom(16);
 
 };
 
+cs.getConfig = function() {
+    var promiseDone = function(res) {
+        console.log(res)
+    };
+    var promise = gsc.cs.getConfig()
+        .done(promiseDone)
+};
 
+cs.evSchema = {
+    'name' : 'string',
+    'datetime' : 'datetime',
+    'description' : 'desc',
+    'id' : 'id',
+    'media' : 'media',
+    'priority' : 'priority',
+    'user' : 'user',
+    'status' : 'status',
+    'location' : 'geometry',
+    'geometry' : 'geometry',
+    'tags' : 'tags',
+    'comments' : 'comments'
+};
+
+cs.dgAttrs = ['name','location','description','datetime','media','priority','user','status','location','tags','comments'];
+
+cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','comments', 'location'];

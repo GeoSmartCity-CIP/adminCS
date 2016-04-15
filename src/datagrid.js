@@ -12,7 +12,7 @@ cs.datagrid.updateData = function() {
         var properties = feature.getProperties();
         var attrs = {};
         for (var key in properties) {
-            attrs[key] = cs.datatype.constructor(key, properties[key]);
+            attrs[key] = cs.datatype.constructor(feature, key, properties[key]);
         }
         cs.datagrid.data_.push(attrs);
     });

@@ -1,16 +1,9 @@
 var cs = cs || {};
 
-
 cs.featureDetail = function(feature) {
     cs.featureDetail.feature_ = feature;
-
-
-    var coors = (feature.getGeometry().getCoordinates());
-    cs.map_.getView().setCenter(coors);
-    cs.map_.getView().setZoom(16);
-
+    cs.zoom2feature(feature);
     cs.featureDetail.renderFeature();
-
     cs.featureDetail.showDetail();
     return this;
 };
@@ -20,9 +13,7 @@ cs.featureDetail.featureElement_ = '';
 cs.featureDetail.feature_ = {};
 
 cs.featureDetail.renderFeature = function(){
-
     cs.featureDetail.featureElement_ =  $('<div>',{class:'cs-featureDetail-wrapper'});
-
     cs.featureDetail.renderProperties();
 };
 
@@ -40,7 +31,7 @@ cs.featureDetail.renderProperties = function(){
 
         var key = cs.dgAttrs[attr];
 
-        var item = cs.datatype.constructor(key, properties[key]);
+        var item = cs.datatype.constructor(cs.featureDetail.feature_, key, properties[key]);
 
         var itemWrapper = $('<div>',{class: 'cs-featureDetail-item-wrapper'})
         .appendTo(wrapper);

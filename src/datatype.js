@@ -3,9 +3,11 @@ var cs = cs || {};
 
 cs.datatype = {};
 
+cs.datatype.feature_ = {};
 
-cs.datatype.constructor = function(key, property){
-    return  cs.datatype.types_[cs.evSchema[key]](property)
+cs.datatype.constructor = function(feature, key, property){
+    cs.datatype.feature_ = feature;
+    return  cs.datatype.types_[cs.evSchema[key]](property);
 };
 
 
@@ -23,6 +25,30 @@ cs.datatype.string = function(val){
 
     dt.getDgValue = function() {
         return val
+    };
+
+    return dt;
+};
+
+
+cs.datatype.desc = function(val){
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getDgValue = function() {
+        if (val.length > 10 ) {
+            return val.slice(0,10) + ' ...'
+        } else {
+            return val;
+        }
     };
 
     return dt;
@@ -63,7 +89,7 @@ cs.datatype.datetime = function(val){
             .appendTo(wrapper);
         $('<span>',{class: 'cs-datatype-fd-datetime-time'})
             .html(datime.toString('HH:mm'))
-                .appendTo(wrapper);
+            .appendTo(wrapper);
 
         return wrapper;
     };
@@ -90,7 +116,6 @@ cs.datatype.media = function(val)  {
         if (val == null) {
             return cs.datatype.empty().getFdValue();
         }
-
         var wrapper = $('<div>',{class: 'cs-datatype-fd-media'});
         function createMedia(item) {
             var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-fd-media-item'})
@@ -113,11 +138,11 @@ cs.datatype.media = function(val)  {
 
         var wrapper = $('<div>',{class: 'cs-datatype-media'});
         function createMedia(item) {
-           var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-media-item'})
-               .on('click', function (evt) { evt.stopPropagation() })
-               .appendTo(wrapper);
+            var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-dg-media-item'})
+                .on('click', function (evt) { evt.stopPropagation() })
+                .appendTo(wrapper);
 
-            $('<img>',{src:'images/camera.svg',class: 'cs-datatype-media-item-image'})
+            $('<span>',{class: 'fa fa-picture-o'})
                 .appendTo(anchor);
 
         }
@@ -131,16 +156,35 @@ cs.datatype.media = function(val)  {
 cs.datatype.geometry = function(val) {
     var dt = {};
 
+    var goTo = function (evt) {
+        evt.stopPropagation();
+        cs.zoom2feature(cs.datatype.feature_);
+    };
+
     dt.getValue = function() {
         return val;
     };
 
     dt.getFdValue = function() {
-        return val
+
+        var loc = $('<span>',{class: 'cs-datatype-geom-fd-loc'});
+
+        var lon = val.lon.toFixed(4);
+        var lat = val.lat.toFixed(4);
+
+        $('<a>',{title : lon + ', '+ lat})
+            .html(lon + ', ' + lat)
+            .on('click', goTo)
+            .appendTo(loc);
+
+        return loc;
     };
 
     dt.getDgValue = function() {
-        return val
+        var loc = $('<span>',{class: 'fa fa-map cs-datatype-geom-dg'})
+            .on('click', goTo)
+
+        return loc;
     };
 
     return dt;
@@ -287,5 +331,6 @@ cs.datatype.types_ = {
     'user': cs.datatype.user,
     'tags': cs.datatype.tags,
     'geometry': cs.datatype.geometry,
-    'id': cs.datatype.id
+    'id': cs.datatype.id,
+    'desc': cs.datatype.desc
 };

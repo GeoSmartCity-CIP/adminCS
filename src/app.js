@@ -65,6 +65,6 @@ var mapshakers =  new ol.layer.Tile({
 });
 
 
-gscMap.addLayer(mapshakers);
+gscMap.addLayer(layerOSM);
 
 cs.getAllEvents();

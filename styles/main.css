@@ -30,8 +30,9 @@ html, body, #map {
     font-family: Tahoma, Geneva, sans-serif !important;
 }
 
-.cs-datatype-media-item-image{
-    width: 18px;
+.cs-datatype-dg-media-item{
+
+    padding: 10px;
 }
 
 .cs-datatype-fd-media-item-image {
@@ -70,4 +71,18 @@ html, body, #map {
 
 .cs-datatype-fd-datetime-date{
     margin-right:8px;
+}
+
+.cs-datatype-geom-dg {
+    cursor: pointer;
+}
+
+.cs-feature-popup-item-wrapper {
+    cursor: pointer;
+    margin: 1px;
+    padding: 4px;
+}
+
+.cs-feature-popup-item-name, .cs-feature-popup-item-icon {
+    padding: 4px;
 }
