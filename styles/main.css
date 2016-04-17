@@ -2,6 +2,7 @@ body {
     padding: 0;
     margin: 0;
     overflow: hidden;
+    font-family: Tahoma, Geneva, sans-serif !important;
 }
 
 html, body, #map {
@@ -72,6 +73,9 @@ html, body, #map {
 .cs-datatype-fd-datetime-date{
     margin-right:8px;
 }
+.cs-datatype-geom-fd-loc{
+    cursor: pointer;
+}
 
 .cs-datatype-geom-dg {
     cursor: pointer;
@@ -85,4 +89,38 @@ html, body, #map {
 
 .cs-feature-popup-item-name, .cs-feature-popup-item-icon {
     padding: 4px;
+}
+
+.cs-filterform-form {
+    padding: 8px;
+}
+
+.cs-filterform-item-label {
+    width: 150px;
+    font-family: Tahoma, Geneva, sans-serif !important;
+}
+
+.cs-filterform-item-label:after {
+    content: ': ';
+}
+
+.cs-filterform-item-input {
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 100%;
+
+}
+
+.cs-filterform-buttons {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.cs-filterform-buttons > button {
+    margin: 4px;
+}
+
+
+.cs-userprofile-form {
+    padding: 8px;
 }

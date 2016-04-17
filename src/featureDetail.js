@@ -23,9 +23,6 @@ cs.featureDetail.renderProperties = function(){
     var wrapper = $('<div>',{class: 'cs-featureDetail-wrapper'})
         .appendTo(cs.featureDetail.featureElement_);
 
-    $('<h2>',{class: 'cs-featureDetail-header'})
-        .html('event detail')
-        .appendTo(wrapper);
 
     for (var attr in cs.fdAttrs){
 
@@ -47,8 +44,9 @@ cs.featureDetail.renderProperties = function(){
 
 };
 
+
 cs.featureDetail.showDetail = function() {
-    cs.sideBar_.open('featureDetail');
-    cs.sideBar_.find('#featureDetail')
+    cs.sideBar_.find('#featureDetailContent')
         .html(cs.featureDetail.featureElement_);
+    cs.sideBar_.open('featureDetail');
 };

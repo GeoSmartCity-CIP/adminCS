@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Example of gsc.map</title>
+    <title>GSC CS admin</title>
 
     <script src="node_modules/jquery/dist/jquery.js"></script>
 
@@ -14,8 +14,6 @@
 
     <link href="node_modules/openlayers/dist/ol.css" rel="stylesheet">
     <script src="node_modules/openlayers/dist/ol-debug.js"></script>
-
-
 
     <!-- https://datatables.net/download/npm -->
     <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css">
@@ -37,6 +35,7 @@
     <script src="src/datagrid.js"></script>
     <script src="src/featureDetail.js"></script>
     <script src="src/datatype.js"></script>
+    <script src="src/filterform.js"></script>
 </head>
 <body>
 
@@ -45,13 +44,13 @@
     <div class="sidebar-tabs">
         <ul role="tablist">
             <li><a href="#userProfile" role="tab"><i class="fa fa-user"></i></a></li>
-            <li><a href="#filterForm" role="tab"><i class="fa fa-filter"></i></a></li>
+            <li><a href="#filter" role="tab"><i class="fa fa-filter"></i></a></li>
             <li><a href="#datagrid" role="tab"><i class="fa fa-table"></i></a></li>
             <li><a href="#featureDetail" role="tab"><i class="fa fa-map-marker"></i></a></li>
         </ul>
 
         <ul role="tablist">
-            <li><a href="#tabButton" role="button"><i class="fa fa-caret-left"></i></a></li>
+            <li><span class="sidebar-close"><i class="fa fa-caret-left"></i></span></li>
         </ul>
     </div>
 
@@ -65,7 +64,7 @@
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
 
-            <form action="#">
+            <form class="cs-userprofile-form" action="#">
                 <fieldset>
                     <legend>Personal information:</legend>
                     First name:<br>
@@ -78,18 +77,29 @@
         </div>
 
 
-        <div class="sidebar-pane" id="filterForm">
+        <div class="sidebar-pane" id="filter">
             <h1 class="sidebar-header">
                 Filter form
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
+            <div id="filterWrapper"></div>
         </div>
 
 
-        <div class="sidebar-pane" id="datagrid"></div>
+        <div class="sidebar-pane" id="datagrid">
+            <h1 class="sidebar-header">
+                Events datagrid
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+            <div id="datagridContent"></div>
+        </div>
 
         <div class="sidebar-pane" id="featureDetail">
-            no features selected
+            <h1 class="sidebar-header">
+                Event detail
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+            <div id="featureDetailContent"></div>
         </div>
 
     </div>

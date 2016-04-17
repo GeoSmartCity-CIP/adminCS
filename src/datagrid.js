@@ -7,6 +7,8 @@ cs.datagrid.data_ = [];
 
 cs.datagrid.updateData = function() {
 
+    cs.datagrid.data_ = [];
+
     cs.eventSource_.forEachFeature(function(feature){
 
         var properties = feature.getProperties();
@@ -77,6 +79,6 @@ cs.datagrid.renderTableItems = function() {
 
 cs.datagrid.showTable = function() {
     cs.sideBar_.open('datagrid');
-    cs.sideBar_.find('#datagrid').append(cs.datagrid.table_);
+    cs.sideBar_.find('#datagridContent').append(cs.datagrid.table_);
     cs.datagrid.table_.DataTable({"bPaginate": false});
 };

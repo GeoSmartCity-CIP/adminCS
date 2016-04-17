@@ -10,6 +10,9 @@ cs.clusterSource_ = new ol.source.Cluster({
 
 cs.sideBar_ = {};
 
+cs.config_ = {};
+
+
 cs.init = function (map) {
     cs.map_ = map;
 
@@ -23,19 +26,25 @@ cs.init = function (map) {
     map.addOverlay(cs.popup_);
 
 
+    cs.filterform('#filterWrapper');
+
+
     this.initEvents();
 };
 
 
 cs.getAllEvents = function()  {
     var data = {};
+
+    var doneHandler_ = function(res) {
+        cs.eventSource_.clear();
+        cs.events2features(res);
+    };
+
+
     gsc.cs.eventListFilter(data)
-        .done(function(res){
-            cs.eventSource_.clear();
-            cs.events2features(res);
-        }).fail(function(err){
-        cs.error(err);
-    });
+        .done(doneHandler_)
+        .fail(cs.error);
 };
 
 
@@ -225,7 +234,7 @@ cs.zoom2feature = function(feature) {
 
 cs.getConfig = function() {
     var promiseDone = function(res) {
-        console.log(res)
+        cs.config_ = res;
     };
     var promise = gsc.cs.getConfig()
         .done(promiseDone)
