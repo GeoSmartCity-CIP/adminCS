@@ -3,6 +3,7 @@ body {
     margin: 0;
     overflow: hidden;
     font-family: Tahoma, Geneva, sans-serif !important;
+    box-sizing: border-box !important;
 }
 
 html, body, #map {
@@ -37,7 +38,7 @@ html, body, #map {
 }
 
 .cs-datatype-fd-media-item-image {
-    width: 90px;
+    width: 256px;
     margin: 4px 10px 4px 10px;
 }
 
@@ -84,7 +85,11 @@ html, body, #map {
 .cs-feature-popup-item-wrapper {
     cursor: pointer;
     margin: 1px;
-    padding: 4px;
+    min-width: 250px;
+}
+
+.cs-feature-popup-item-wrapper:hover {
+    background-color: #99bbdd;
 }
 
 .cs-feature-popup-item-name, .cs-feature-popup-item-icon {
@@ -120,7 +125,16 @@ html, body, #map {
     margin: 4px;
 }
 
+.cs-filterform-form-group {
+    width: 90%;
+}
 
 .cs-userprofile-form {
     padding: 8px;
+}
+
+.cs-featureDetail-edit-button {
+    margin-left: 20px;
+    margin-top: 10px;
+    cursor: pointer;
 }

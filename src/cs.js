@@ -25,9 +25,7 @@ cs.init = function (map) {
 
     map.addOverlay(cs.popup_);
 
-
-    cs.filterform('#filterWrapper');
-
+    this.getConfig();
 
     this.initEvents();
 };
@@ -95,7 +93,7 @@ cs.source2map = function() {
 
 cs.fit2features = function() {
     var extent = cs.eventSource_.getExtent();
-    cs.map_.getView().fit(extent,cs.map_.getSize());
+    cs.map_.getView().fit(extent,cs.map_.getSize(),{'padding' : [10, 10, 10, 400], 'maxZoom': 15});
 };
 
 cs.initSideBar = function() {
@@ -192,21 +190,28 @@ cs.style = function(feature, resolution) {
 cs.clickFeatures = function(feature,layer,evt) {
     var size = feature.get('features').length;
 
-    cs.popup_.setPosition(evt.coordinate);
-    var content = $('<div>');
-    feature.get('features').forEach( function(item) {
-        content.append(cs.renderFeaturePopup(item));
-    });
+    if (size < 5) {
 
-    var popElm = $('#popup');
+        cs.popup_.setPosition(evt.coordinate);
+        var content = $('<div>');
+        feature.get('features').forEach(function (item) {
+            content.append(cs.renderFeaturePopup(item));
+        });
 
-    popElm.popover("destroy").popover({
-        'placement': 'top',
-        'html': true,
-        'content': content
-    });
+        var popElm = $('#popup');
 
-    popElm.popover('show');
+        popElm.popover("destroy").popover({
+            'placement': 'top',
+            'html': true,
+            'content': content
+        });
+
+        popElm.popover('show');
+    } else {
+        console.log(feature.get())
+        //cs.map_.getView().setZoom(cs.map_.getView().getZoom()+1);
+        cs.zoom2feature(feature, cs.map_.getView().getZoom() + 1 );
+    }
 };
 
 cs.renderFeaturePopup = function(feature) {
@@ -218,23 +223,30 @@ cs.renderFeaturePopup = function(feature) {
     var wrapper = $('<div>',{class:'cs-feature-popup-item-wrapper'})
         .on('click',goTo);
 
-    $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
     $('<span>', {class:'fa fa-info-circle cs-feature-popup-item-icon'}).appendTo(wrapper);
+   // $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
+    $('<span>', {class: 'cs-feature-popup-item-name'}).html('<b>status:</b> '+ feature.get('status') +', <b>priority:</b> '+ feature.get('priority')).appendTo(wrapper);
+    $('<img>', {class: 'cs-feature-popup-item-name', src:feature.get('media')[0].src }).appendTo(wrapper);
+
 
     return wrapper;
 };
 
-cs.zoom2feature = function(feature) {
+cs.zoom2feature = function(feature, maxZoom) {
 
-    var coors = (feature.getGeometry().getCoordinates());
-    cs.map_.getView().setCenter(coors);
-    cs.map_.getView().setZoom(16);
+    var mz = maxZoom || 15;
+
+    var geometry = (feature.getGeometry());
+    var mapSize = cs.map_.getSize();
+    cs.map_.getView().fit(geometry, mapSize, {'padding' : [0, 0, 0, cs.sideBar_.width()], 'maxZoom': mz});
 
 };
 
 cs.getConfig = function() {
     var promiseDone = function(res) {
         cs.config_ = res;
+
+        cs.filterform('#filterWrapper');
     };
     var promise = gsc.cs.getConfig()
         .done(promiseDone)
@@ -255,6 +267,6 @@ cs.evSchema = {
     'comments' : 'comments'
 };
 
-cs.dgAttrs = ['name','location','description','datetime','media','priority','user','status','location','tags','comments'];
+cs.dgAttrs = ['name','location','description','datetime','media','priority','user','status','tags','comments'];
 
 cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','comments', 'location'];

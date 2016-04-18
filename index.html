@@ -58,6 +58,8 @@
     <div class="sidebar-content">
         <div class="sidebar-pane" id="caret"> </div>
 
+
+        <!-- USER PROFILE -->
         <div class="sidebar-pane" id="userProfile">
             <h1 class="sidebar-header">
                 User Profile
@@ -66,17 +68,18 @@
 
             <form class="cs-userprofile-form" action="#">
                 <fieldset>
-                    <legend>Personal information:</legend>
-                    First name:<br>
-                    <input type="text" name="firstname" value="Mickey"><br>
-                    Last name:<br>
-                    <input type="text" name="lastname" value="Mouse"><br><br>
+                    <legend>Login:</legend>
+                    Username or email:<br>
+                    <input type="text" name="username" value="Mickey"><br>
+                    Password:<br>
+                    <input type="password" name="pass" value=""><br><br>
                     <input type="submit" value="Submit">
                 </fieldset>
             </form>
         </div>
 
 
+        <!-- FILTER -->
         <div class="sidebar-pane" id="filter">
             <h1 class="sidebar-header">
                 Filter form
@@ -86,20 +89,24 @@
         </div>
 
 
+        <!-- DATAGRID -->
         <div class="sidebar-pane" id="datagrid">
-            <h1 class="sidebar-header">
-                Events datagrid
-                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            <h1 class="sidebar-header dg">
+                Events
             </h1>
             <div id="datagridContent"></div>
         </div>
 
+        <!-- FEATURE DETAIL -->
         <div class="sidebar-pane" id="featureDetail">
-            <h1 class="sidebar-header">
+            <h1 class="sidebar-header" >
+                <span class="cs-featuredetail-edit-button"><i class="fa fa-edit"></i></span>
                 Event detail
                 <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
             </h1>
-            <div id="featureDetailContent"></div>
+            <div id="featureDetailContent">
+                <h3>No feature selected!</h3>
+            </div>
         </div>
 
     </div>

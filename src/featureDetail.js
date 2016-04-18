@@ -26,7 +26,7 @@ cs.featureDetail.renderProperties = function(){
 
     for (var attr in cs.fdAttrs){
 
-        var key = cs.dgAttrs[attr];
+        var key = cs.fdAttrs[attr];
 
         var item = cs.datatype.constructor(cs.featureDetail.feature_, key, properties[key]);
 

@@ -79,6 +79,8 @@ cs.datagrid.renderTableItems = function() {
 
 cs.datagrid.showTable = function() {
     cs.sideBar_.open('datagrid');
-    cs.sideBar_.find('#datagridContent').append(cs.datagrid.table_);
+    cs.sideBar_.find('#datagridContent').empty().append(cs.datagrid.table_);
     cs.datagrid.table_.DataTable({"bPaginate": false});
+    $('.dg').width(cs.datagrid.table_.width())
+
 };
