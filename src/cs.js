@@ -52,7 +52,7 @@ cs.error = function(error) {
 
 
 cs.event2feature = function(event){
-    var coors = new ol.geom.Point( [event.location.lat, event.location.lon])
+    var coors = new ol.geom.Point( [event.location.lon, event.location.lat])
         .transform('EPSG:4326', 'EPSG:3857');
 
     var feature = new ol.Feature({
@@ -156,7 +156,7 @@ cs.style = function(feature, resolution) {
     var style = cs.styleCache[size];
     var size = feature.get('features').length;
     if (size == 1){
-        var f = feature.get('features')[0]
+        var f = feature.get('features')[0];
         if (f.get('status') == 'created') {
             return cs.icon.ko;
         } else {
