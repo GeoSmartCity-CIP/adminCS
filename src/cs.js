@@ -269,4 +269,4 @@ cs.evSchema = {
 
 cs.dgAttrs = ['name','location','description','datetime','media','priority','user','status','tags','comments'];
 
-cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','comments', 'location'];
+cs.fdAttrs = ['name','description','datetime','media','priority','user','status','tags','location','comments'];

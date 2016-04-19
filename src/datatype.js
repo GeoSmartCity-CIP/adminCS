@@ -284,12 +284,30 @@ cs.datatype.id = function(val) {
 cs.datatype.comments = function(val) {
     var dt = {};
 
+    var val = val || [];
+
     dt.getValue = function() {
         return val;
     };
 
     dt.getFdValue = function() {
-        return val
+        var wrapper = $('<div>', {class:'cs-datatype-comment-wrapper'});
+
+        var forEachComment = function(comment) {
+
+            var wrapperItem = $('<div>', {class:'cs-datatype-comment-item'})
+                .appendTo(wrapper);
+            $('<span>', {class:'cs-datatype-comment-user'})
+                .html(comment.user)
+                .appendTo(wrapperItem);
+            $('<span>', {class:'cs-datatype-comment-text'})
+                .html(comment.text)
+                .appendTo(wrapperItem);
+        };
+
+        val.forEach(forEachComment);
+
+        return wrapper;
     };
 
     dt.getDgValue = function() {

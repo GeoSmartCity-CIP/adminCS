@@ -138,3 +138,7 @@ html, body, #map {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.cs-datatype-comment-user:after {
+    content:': '
+}
