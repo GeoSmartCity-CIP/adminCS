@@ -68,3 +68,5 @@ var mapshakers =  new ol.layer.Tile({
 gscMap.addLayer(layerOSM);
 
 cs.getAllEvents();
+
+cs.user.renderLoginForm('#userSection')
