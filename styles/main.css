@@ -23,6 +23,25 @@ html, body, #map {
     margin-top: 2px;
 }
 
+.ol-zoom {
+    right: 8px !important;
+    left: initial;
+}
+
+
+.dataTables_wrapper .dataTables_filter {
+    float: left;
+    text-align: right;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.dataTables_info{
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+
 #tableWrapper {
     width: 100%;
     overflow: auto;
@@ -97,7 +116,7 @@ html, body, #map {
 }
 
 .cs-filterform-form {
-    padding: 8px;
+    padding: 20px;
 }
 
 .cs-filterform-item-label {
@@ -112,7 +131,7 @@ html, body, #map {
 .cs-filterform-item-input {
     border: 1px solid #cccccc;
     border-radius: 4px;
-    width: 100%;
+    min-width: 200px;
 
 }
 
@@ -126,11 +145,11 @@ html, body, #map {
 }
 
 .cs-filterform-form-group {
-    width: 90%;
+    width: 100%;
 }
 
 .cs-userprofile-form {
-    padding: 8px;
+    padding: 20px;
 }
 
 .cs-featureDetail-edit-button {
@@ -141,4 +160,8 @@ html, body, #map {
 
 .cs-datatype-comment-user:after {
     content:': '
+}
+
+.sidebar {
+    overflow: hidden;
 }

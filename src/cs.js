@@ -41,8 +41,8 @@ cs.getAllEvents = function()  {
 
 
     gsc.cs.eventListFilter(data)
-        .done(doneHandler_)
-        .fail(cs.error);
+      .done(doneHandler_)
+      .fail(cs.error);
 };
 
 
@@ -53,7 +53,7 @@ cs.error = function(error) {
 
 cs.event2feature = function(event){
     var coors = new ol.geom.Point( [event.location.lon, event.location.lat])
-        .transform('EPSG:4326', 'EPSG:3857');
+      .transform('EPSG:4326', 'EPSG:3857');
 
     var feature = new ol.Feature({
         geometry: coors,
@@ -98,6 +98,17 @@ cs.fit2features = function() {
 
 cs.initSideBar = function() {
     cs.sideBar_ = $('#sidebar').sidebar();
+    cs.sideBar_.resizable({
+          minWidth: 40,
+          animate: false,
+          handles: "e"
+      })
+      .on( "resizestart", function( event, ui ) {cs.sideBar_.css('transition','none')} )
+      .on( "resizestop", function( event, ui ) {
+          if (cs.sideBar_.width() == 40){
+              cs.sideBar_.close();
+          }
+      } );
 };
 
 cs.initEvents = function() {
@@ -221,10 +232,10 @@ cs.renderFeaturePopup = function(feature) {
     };
 
     var wrapper = $('<div>',{class:'cs-feature-popup-item-wrapper'})
-        .on('click',goTo);
+      .on('click',goTo);
 
     $('<span>', {class:'fa fa-info-circle cs-feature-popup-item-icon'}).appendTo(wrapper);
-   // $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
+    // $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
     $('<span>', {class: 'cs-feature-popup-item-name'}).html('<b>status:</b> '+ feature.get('status') +', <b>priority:</b> '+ feature.get('priority')).appendTo(wrapper);
     $('<img>', {class: 'cs-feature-popup-item-name', src:feature.get('media')[0].src }).appendTo(wrapper);
 
@@ -249,7 +260,7 @@ cs.getConfig = function() {
         cs.filterform('#filterWrapper');
     };
     var promise = gsc.cs.getConfig()
-        .done(promiseDone)
+      .done(promiseDone)
 };
 
 cs.evSchema = {

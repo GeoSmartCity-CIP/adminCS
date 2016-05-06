@@ -68,6 +68,9 @@ $.fn.sidebar = function(options) {
      * Close the sidebar (if necessary).
      */
     $sidebar.close = function() {
+
+        $sidebar.removeAttr('style');
+
         // remove old active highlights
         $tabs.children('li.active').removeClass('active');
 

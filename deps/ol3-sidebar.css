@@ -111,7 +111,7 @@
 
 .sidebar-header {
   font-family: Tahoma, Geneva, sans-serif !important;
-  margin: -10px -20px 10px;
+  margin: -10px 0 0 -10px !important;
   padding: 8px 0 0 30px;
   line-height: 50px;
   font-size: 14.4pt;
