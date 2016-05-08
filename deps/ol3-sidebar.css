@@ -6,6 +6,8 @@
   overflow: auto;
   z-index: 2000;
   box-shadow: 1px 0px 4px 0px rgba(0,0,0,0.5);
+  -webkit-transition: width 2s; /* Safari */
+  transition: width 500ms;
 }
 .sidebar.collapsed {
   width: 40px; }
@@ -13,7 +15,7 @@
   .sidebar {
     top: 0px;
     bottom: 0px;
-    transition: width 500ms; } }
+  } }
 @media (min-width: 768px) and (max-width: 991px) {
   .sidebar {
     width: 305px; } }
@@ -50,7 +52,7 @@
   color: #fff;
   font-size: 12pt;
   overflow: hidden;
-  transition: all 80ms; }
+}
 .sidebar-tabs > li:hover, .sidebar-tabs > ul > li:hover {
   color: #fff;
   background-color: rgba(0, 60, 136, 0.6);
@@ -135,55 +137,7 @@
   background-color: rgba(255, 255, 255, 0.4); }
 
 .sidebar-tabs {
-  overflow: hidden; }
-
-.sidebar-left ~ .sidebar-map .ol-zoom {
-  margin-left: 52px; }
-@media (min-width: 768px) {
-  .sidebar-left ~ .sidebar-map .ol-zoom {
-    transition: margin-left 500ms; } }
-@media (min-width: 768px) and (max-width: 991px) {
-  .sidebar-left ~ .sidebar-map .ol-zoom {
-    margin-left: 317px; } }
-@media (min-width: 992px) and (max-width: 1199px) {
-  .sidebar-left ~ .sidebar-map .ol-zoom {
-    margin-left: 402px; } }
-@media (min-width: 1200px) {
-  .sidebar-left ~ .sidebar-map .ol-zoom {
-    margin-left: 472px; } }
-
-@media (min-width: 768px) {
-  .sidebar-left.collapsed ~ .sidebar-map .ol-zoom {
-    margin-left: 52px; } }
-
-.sidebar-right ~ .sidebar-map .ol-rotate,
-.sidebar-right ~ .sidebar-map .ol-attribution,
-.sidebar-right ~ .sidebar-map .ol-full-screen {
-  margin-right: 46px; }
-@media (min-width: 768px) {
-  .sidebar-right ~ .sidebar-map .ol-rotate,
-  .sidebar-right ~ .sidebar-map .ol-attribution,
-  .sidebar-right ~ .sidebar-map .ol-full-screen {
-    transition: margin-right 500ms; } }
-@media (min-width: 768px) and (max-width: 991px) {
-  .sidebar-right ~ .sidebar-map .ol-rotate,
-  .sidebar-right ~ .sidebar-map .ol-attribution,
-  .sidebar-right ~ .sidebar-map .ol-full-screen {
-    margin-right: 317px; } }
-@media (min-width: 992px) and (max-width: 1199px) {
-  .sidebar-right ~ .sidebar-map .ol-rotate,
-  .sidebar-right ~ .sidebar-map .ol-attribution,
-  .sidebar-right ~ .sidebar-map .ol-full-screen {
-    margin-right: 402px; } }
-@media (min-width: 1200px) {
-  .sidebar-right ~ .sidebar-map .ol-rotate,
-  .sidebar-right ~ .sidebar-map .ol-attribution,
-  .sidebar-right ~ .sidebar-map .ol-full-screen {
-    margin-right: 472px; } }
-
-@media (min-width: 768px) {
-  .sidebar-right.collapsed ~ .sidebar-map .ol-rotate,
-  .sidebar-right.collapsed ~ .sidebar-map .ol-attribution,
-  .sidebar-right.collapsed ~ .sidebar-map .ol-full-screen {
-    margin-right: 52px; }
+  overflow: hidden;
 }
+
+

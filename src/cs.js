@@ -16,7 +16,6 @@ cs.config_ = {};
 cs.init = function (map) {
     cs.map_ = map;
 
-
     cs.popup_ = new ol.Overlay({
         element: document.getElementById('popup'),
         positioning: 'bottom-center',
@@ -51,31 +50,17 @@ cs.error = function(error) {
 };
 
 
-cs.event2feature = function(event){
-    var coors = new ol.geom.Point( [event.location.lon, event.location.lat])
-      .transform('EPSG:4326', 'EPSG:3857');
-
-    var feature = new ol.Feature({
-        geometry: coors,
-        name: 'event'
-    });
-
-    if (event.status == 'created') {
-        feature.setStyle(cs.icon.ok);
-    } else {
-        feature.setStyle(cs.icon.ko);
-    }
-    feature.setId(event.id);
-    feature.setProperties(event);
-    return feature;
-};
-
-
 cs.events2features = function(events){
     events.forEach(function(event){
-        cs.eventSource_.addFeature(cs.event2feature(event));
+        cs.eventSource_.addFeature(cs.feature.event2feature(event));
     });
-    this.source2map();
+
+    if (cs.sourceIsInMap){
+        cs.fit2features();
+    } else {
+        cs.source2map();
+    }
+
     cs.datagrid.updateData();
 };
 
@@ -84,45 +69,96 @@ cs.source2map = function() {
     cs.layer_ =  new ol.layer.Vector({
         //source: cs.eventSource_
         source: cs.clusterSource_,
-        style: cs.style
+        style: cs.feature.style
     });
     cs.map_.addLayer(cs.layer_);
+    cs.sourceIsInMap = true;
     cs.fit2features();
 };
 
 
 cs.fit2features = function() {
     var extent = cs.eventSource_.getExtent();
-    cs.map_.getView().fit(extent,cs.map_.getSize(),{'padding' : [10, 10, 10, 400], 'maxZoom': 15});
+    cs.map_.getView().fit(extent,cs.map_.getSize(),{'padding' : [10, 10, 10, cs.sideBar_.width()], 'maxZoom': 15});
 };
 
 cs.initSideBar = function() {
     cs.sideBar_ = $('#sidebar').sidebar();
+
+    var widthFn = function(evt,param) {
+        cs.sideBar_.type = param.id;
+
+        var pane = cs.sideBar_.find('#'+param.id);
+
+        switch (cs.sideBar_.type) {
+            case 'datagrid':
+                cs.sideBar_.width(cs.datagrid.width);
+                pane.css('min-width',cs.datagrid.width-400);
+                break;
+            case 'filter':
+                cs.sideBar_.width(cs.filterform.width);
+                pane.css('min-width',cs.filterform.width-100);
+                break;
+            case 'userProfile':
+                cs.sideBar_.width(cs.user.width);
+                pane.css('min-width',cs.user.width-100);
+                break;
+            case 'featureDetail':
+                cs.sideBar_.width(cs.featureDetail.width);
+                pane.css('min-width',cs.featureDetail.width-150);
+                break;
+            default:
+                cs.sideBar_.removeAttr('style')
+        }
+    };
+
+    var transition;
+
     cs.sideBar_.resizable({
           minWidth: 40,
           animate: false,
           handles: "e"
       })
-      .on( "resizestart", function( event, ui ) {cs.sideBar_.css('transition','none')} )
+      .on( "resizestart", function( event, ui ) {
+          transition = cs.sideBar_.css('transition');
+          cs.sideBar_.css('transition','none')
+      } )
       .on( "resizestop", function( event, ui ) {
-          if (cs.sideBar_.width() == 40){
+          cs.sideBar_.css('transition', transition);
+          if (cs.sideBar_.width() <= 40){
               cs.sideBar_.close();
+          } else {
+              switch (cs.sideBar_.type) {
+                  case 'datagrid':
+                      cs.datagrid.width = cs.sideBar_.width();
+                      break;
+                  case 'filter':
+                      cs.filterform.width = cs.sideBar_.width();
+                      break;
+                  case 'userProfile':
+                      cs.user.width = cs.sideBar_.width();
+                      break;
+                  case 'featureDetail':
+                      cs.featureDetail.width = cs.sideBar_.width();
+                      break;
+
+              }
           }
-      } );
+      } )
+      .on('content', widthFn)
 };
 
 cs.initEvents = function() {
 
-
     // http://openlayers.org/en/v3.8.1/examples/icon.html?q=style+icon
     var closePop = function(e) {
         $('#popup').popover('destroy');
-        return
+        return;
     };
 
     var singleClick = function(evt){
         cs.map_.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
-            cs.clickFeatures(feature,layer,evt)
+            cs.feature.clickOnFeatures(feature,layer,evt)
         });
     };
 
@@ -133,125 +169,6 @@ cs.initEvents = function() {
     this.map_.on('singleclick', singleClick);
 };
 
-cs.icon = {};
-
-cs.icon.ko  = new ol.style.Style({
-    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-        anchor: [0.5, 46],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'pixels',
-        // imgSize: [20,20],
-        scale: 0.08,
-        opacity: 1,
-        src: 'images/icons/fire.svg'
-    }))
-});
-
-
-cs.icon.ok  = new ol.style.Style({
-    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-        anchor: [0.5, 46],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'pixels',
-        // imgSize: [20,20],
-        scale: 0.08,
-        opacity: 1,
-        src: 'images/icons/star.svg'
-    }))
-});
-
-
-cs.styleCache = {};
-
-cs.style = function(feature, resolution) {
-    var style = cs.styleCache[size];
-    var size = feature.get('features').length;
-    if (size == 1){
-        var f = feature.get('features')[0];
-        if (f.get('status') == 'created') {
-            return cs.icon.ko;
-        } else {
-            return cs.icon.ok;
-        }
-    }
-
-    if (!style) {
-        style = [new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 10,
-                stroke: new ol.style.Stroke({
-                    color: '#fff'
-                }),
-                fill: new ol.style.Fill({
-                    color: '#3399CC'
-                })
-            }),
-            text: new ol.style.Text({
-                text: size.toString(),
-                fill: new ol.style.Fill({
-                    color: '#fff'
-                })
-            })
-        })];
-        cs.styleCache[size] = style;
-    }
-    return style;
-};
-
-cs.clickFeatures = function(feature,layer,evt) {
-    var size = feature.get('features').length;
-
-    if (size < 5) {
-
-        cs.popup_.setPosition(evt.coordinate);
-        var content = $('<div>');
-        feature.get('features').forEach(function (item) {
-            content.append(cs.renderFeaturePopup(item));
-        });
-
-        var popElm = $('#popup');
-
-        popElm.popover("destroy").popover({
-            'placement': 'top',
-            'html': true,
-            'content': content
-        });
-
-        popElm.popover('show');
-    } else {
-        console.log(feature.get())
-        //cs.map_.getView().setZoom(cs.map_.getView().getZoom()+1);
-        cs.zoom2feature(feature, cs.map_.getView().getZoom() + 1 );
-    }
-};
-
-cs.renderFeaturePopup = function(feature) {
-
-    var goTo = function(evt) {
-        cs.featureDetail(feature);
-    };
-
-    var wrapper = $('<div>',{class:'cs-feature-popup-item-wrapper'})
-      .on('click',goTo);
-
-    $('<span>', {class:'fa fa-info-circle cs-feature-popup-item-icon'}).appendTo(wrapper);
-    // $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
-    $('<span>', {class: 'cs-feature-popup-item-name'}).html('<b>status:</b> '+ feature.get('status') +', <b>priority:</b> '+ feature.get('priority')).appendTo(wrapper);
-    $('<img>', {class: 'cs-feature-popup-item-name', src:feature.get('media')[0].src }).appendTo(wrapper);
-
-
-    return wrapper;
-};
-
-cs.zoom2feature = function(feature, maxZoom) {
-
-    var mz = maxZoom || 15;
-
-    var geometry = (feature.getGeometry());
-    var mapSize = cs.map_.getSize();
-    cs.map_.getView().fit(geometry, mapSize, {'padding' : [0, 0, 0, cs.sideBar_.width()], 'maxZoom': mz});
-
-};
 
 cs.getConfig = function() {
     var promiseDone = function(res) {

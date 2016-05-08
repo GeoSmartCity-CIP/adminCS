@@ -4,6 +4,7 @@ cs.datagrid = {};
 
 cs.datagrid.data_ = [];
 
+cs.datagrid.width = $(window).width()*2/3;
 
 cs.datagrid.updateData = function() {
 
@@ -81,6 +82,5 @@ cs.datagrid.showTable = function() {
     cs.sideBar_.open('datagrid');
     cs.sideBar_.find('#datagridContent').empty().append(cs.datagrid.table_);
     cs.datagrid.table_.DataTable({"bPaginate": false});
-    $('.dg').width(cs.datagrid.table_.width())
 
 };

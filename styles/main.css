@@ -23,6 +23,11 @@ html, body, #map {
     margin-top: 2px;
 }
 
+.ol-rotate {
+    top: 55px;
+    right: 8px !important;
+}
+
 .ol-zoom {
     right: 8px !important;
     left: initial;
@@ -47,6 +52,11 @@ html, body, #map {
     overflow: auto;
 }
 
+.ol-dragbox {
+    background-color: rgba(255,255,255,0.4);
+    border-color: rgba(100,150,0,1);
+}
+
 .cs-datagrid-table{
     font-family: Tahoma, Geneva, sans-serif !important;
 }
@@ -65,6 +75,9 @@ html, body, #map {
     cursor: pointer;
 }
 
+.gs-featureDetail-toolButtons{
+    margin: 10px 10px 20px 10px !important;
+}
 
 .cs-featureDetail-wrapper{
     font-family: Tahoma, Geneva, sans-serif !important;
@@ -74,6 +87,7 @@ html, body, #map {
 .cs-featureDetail-item-wrapper{
     padding: 0;
     margin: 2px;
+    border-top: 1px dotted #ccc;
 }
 
 .cs-featureDetail-item-name{
@@ -90,9 +104,29 @@ html, body, #map {
     font-style: italic;
 }
 
+.cs-featureDetail-form > button {
+    margin: 4px;
+}
+
+.cs-featureDetail-formButtons > button  {
+    margin: 4px;
+}
+
+.cs-featureDetail-form-item {
+    width:100%;
+}
+
+.cs-featureDetail-noSelected{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 60px;
+}
+
 .cs-datatype-fd-datetime-date{
     margin-right:8px;
 }
+
 .cs-datatype-geom-fd-loc{
     cursor: pointer;
 }
@@ -120,7 +154,6 @@ html, body, #map {
 }
 
 .cs-filterform-item-label {
-    width: 150px;
     font-family: Tahoma, Geneva, sans-serif !important;
 }
 
@@ -129,10 +162,7 @@ html, body, #map {
 }
 
 .cs-filterform-item-input {
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    min-width: 200px;
-
+    width: 100%;
 }
 
 .cs-filterform-buttons {
@@ -152,16 +182,70 @@ html, body, #map {
     padding: 20px;
 }
 
+.cs-user-userProfile-profile {
+    margin: 20px;
+}
+
 .cs-featureDetail-edit-button {
     margin-left: 20px;
     margin-top: 10px;
     cursor: pointer;
 }
 
+.cs-user-userProfile-profile{
+    margin: 10px;
+}
+
+.cs-user-userProfile-profile-label {
+    font-size: small;
+}
+
+.cs-user-userProfile-profile-item {
+
+}
+
+
+.cs-datatype-comment-wrapper{
+    margin-top: 20px;
+    border-top: 1px #ccc;
+
+}
+
+.cs-datatype-comment-itemwrapper {
+    padding: 10px;
+}
+
+.cs-datatype-comment-user {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+}
+
 .cs-datatype-comment-user:after {
     content:': '
 }
 
+.cs-datatype-comment-text {
+    font-style: normal;
+}
+
+
+.cs-datatype-comment-item {
+    border-bottom: 1px dotted #ccc;
+}
+
+.cs-datatype-comment-add {
+    margin-top: 20px;
+    font-style: normal;
+}
+
+.cs-datatype-comment-add > button{
+    margin: 4px;
+}
+
+.cs-datatype-comment-add > input {
+    width:100%
+}
 .sidebar {
     overflow: hidden;
 }

@@ -57,7 +57,6 @@ var statemenLayer2=     new ol.layer.Tile({
     })
 });
 
-
 var mapshakers =  new ol.layer.Tile({
     source: new ol.source.XYZ({
         url: 'http://{a-d}.mapshakers.com:25095/cijywvxlm004rtikohhqf99jv/greyBright2/256/{z}/{x}/{y}.png'
@@ -69,4 +68,4 @@ gscMap.addLayer(layerOSM);
 
 cs.getAllEvents();
 
-cs.user.renderLoginForm('#userSection')
+cs.user.renderLoginForm('#userSection');

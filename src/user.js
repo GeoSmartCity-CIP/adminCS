@@ -2,6 +2,8 @@ var cs = cs || {};
 
 cs.user = {};
 
+cs.user.width = 300;
+
 cs.user.reset = function() {
   cs.user.isAuthorized = false;
 
@@ -20,7 +22,7 @@ cs.user.reset = function() {
 
   cs.user.loginForm = $();
   cs.user.loginForm.empty();
-}
+};
 
 cs.user.reset();
 
@@ -34,6 +36,7 @@ cs.user.authenticate = function(username, password) {
     cs.user.email = evtData.user.email;
     cs.user.isAuthorized = true;
     cs.user.renderUserProfile();
+    if (cs.featureDetail.btnGroupSecure) cs.featureDetail.btnGroupSecure.show();
   };
 
   var loginErr = function(evtData) {
@@ -61,6 +64,7 @@ cs.user.logOut = function(){
   cs.user.userProfile.hide();
   cs.user.reset();
   cs.user.renderLoginForm(cs.user.wrapper);
+  cs.featureDetail.btnGroupSecure.hide();
 };
 
 cs.user.renderLoginForm = function(querySelector) {
@@ -121,7 +125,7 @@ cs.user.renderUserProfile = function() {
   cs.user.userProfile = $('<div>',{class:''})
     .appendTo(cs.user.wrapper);
 
-  var fieldset = $('<fielset>')
+  var fieldset = $('<fielset>', {class:'cs-user-userProfile-profile'})
     .appendTo(cs.user.userProfile);
 
 
@@ -129,35 +133,35 @@ cs.user.renderUserProfile = function() {
     .html('Logged as:')
     .appendTo(fieldset);
 
-  $('<div>')
-    .html('Username<br>')
+  $('<div>', {class:'cs-user-userProfile-profile-label text-muted'})
+    .html('Username')
     .appendTo(fieldset);
-  $('<span>')
+  $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.name)
     .appendTo(fieldset);
 
-  $('<div>')
-    .html('Email<br>')
+  $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
+    .html('Email')
     .appendTo(fieldset);
-  $('<span>')
+  $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.email)
     .appendTo(fieldset);
 
-  $('<div>')
-    .html('Role<br>')
+  $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
+    .html('Role')
     .appendTo(fieldset);
-  $('<span>')
+  $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.role)
     .appendTo(fieldset);
 
-  $('<div>')
-    .html('Organization<br>')
+  $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
+    .html('Organization')
     .appendTo(fieldset);
-  $('<span>')
+  $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.organization + '<br><br>')
     .appendTo(fieldset);
 
-  $('<button>')
+  $('<button>', {class:'btn btn-default pull-right'})
     .html('Log out')
     .on('click',cs.user.logOut)
     .appendTo(fieldset);

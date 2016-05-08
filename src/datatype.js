@@ -1,26 +1,26 @@
 var cs = cs || {};
 
-
 cs.datatype = {};
 
-cs.datatype.feature_ = {};
-
 cs.datatype.constructor = function(feature, key, property){
-    cs.datatype.feature_ = feature;
-    return  cs.datatype.types_[cs.evSchema[key]](property);
+    return  cs.datatype.types_[cs.evSchema[key]](property, feature, key);
 };
 
-
-cs.datatype.string = function(val){
+cs.datatype.string = function(val, feature, key){
     var dt = {};
 
     dt.getValue = function() {
         return val;
     };
 
-
     dt.getFdValue = function() {
         return val
+    };
+
+    dt.getEditValue = function() {
+        var input = $('<input>', {type:'text' , name:key})
+          .val(val)
+        return input;
     };
 
     dt.getDgValue = function() {
@@ -31,7 +31,7 @@ cs.datatype.string = function(val){
 };
 
 
-cs.datatype.desc = function(val){
+cs.datatype.desc = function(val, feature, key){
     var dt = {};
 
     dt.getValue = function() {
@@ -41,6 +41,12 @@ cs.datatype.desc = function(val){
 
     dt.getFdValue = function() {
         return val
+    };
+
+    dt.getEditValue = function() {
+        var input = $('<textarea>', {name:key})
+          .val(val);
+        return input;
     };
 
     dt.getDgValue = function() {
@@ -54,7 +60,7 @@ cs.datatype.desc = function(val){
     return dt;
 };
 
-cs.datatype.number = function(val) {
+cs.datatype.number = function(val, feature, key) {
     var dt = {};
 
     dt.getValue = function() {
@@ -65,6 +71,12 @@ cs.datatype.number = function(val) {
         return val
     };
 
+    dt.getEditValue = function() {
+        var input = $('<input>', {type:'number', name:key})
+          .val(val)
+        return input;
+    };
+
     dt.getDgValue = function() {
         return val
     };
@@ -73,7 +85,7 @@ cs.datatype.number = function(val) {
 };
 
 
-cs.datatype.datetime = function(val){
+cs.datatype.datetime = function(val, feature, key) {
     // https://github.com/datejs/Datejs
     var datime =  Date.parse(val);
     var dt = {};
@@ -85,27 +97,29 @@ cs.datatype.datetime = function(val){
     dt.getFdValue = function() {
         var wrapper = $('<span>',{});
         $('<span>',{class: 'cs-datatype-fd-datetime-date'})
-            .html(datime.toString('yyyy/M/d'))
-            .appendTo(wrapper);
+          .html(datime.toString('yyyy/M/d'))
+          .appendTo(wrapper);
         $('<span>',{class: 'cs-datatype-fd-datetime-time'})
-            .html(datime.toString('HH:mm'))
-            .appendTo(wrapper);
-
+          .html(datime.toString('HH:mm'))
+          .appendTo(wrapper);
         return wrapper;
+    };
+
+    dt.getEditValue = function() {
+        var input = $('<input>', {type:'date', name:key})
+          .val(Date.parse(val));
+        return input;
     };
 
     dt.getDgValue = function() {
         return datime.toString('yyyy/M/d')
     };
 
-
-
     return dt;
 };
 
-cs.datatype.media = function(val)  {
+cs.datatype.media = function(val, feature, key) {
     var dt = {};
-
 
     dt.getValue = function() {
         return val;
@@ -119,31 +133,35 @@ cs.datatype.media = function(val)  {
         var wrapper = $('<div>',{class: 'cs-datatype-fd-media'});
         function createMedia(item) {
             var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-fd-media-item'})
-                .on('click', function (evt) { evt.stopPropagation() })
-                .appendTo(wrapper);
+              .on('click', function (evt) { evt.stopPropagation() })
+              .appendTo(wrapper);
 
             $('<img>',{src: item,class: 'cs-datatype-fd-media-item-image'})
-                .appendTo(anchor);
+              .appendTo(anchor);
 
         }
         val.forEach(createMedia);
         return wrapper;
     };
 
+    dt.getEditValue = function() {
+        return null;
+    };
+
     dt.getDgValue = function() {
 
         if (val == null) {
-            return cs.datatype.empty().getDdValue();
+            return cs.datatype.empty().getDgValue();
         }
 
         var wrapper = $('<div>',{class: 'cs-datatype-media'});
         function createMedia(item) {
             var anchor = $('<a>',{href: item, target:'_blank',class: 'cs-datatype-dg-media-item'})
-                .on('click', function (evt) { evt.stopPropagation() })
-                .appendTo(wrapper);
+              .on('click', function (evt) { evt.stopPropagation() })
+              .appendTo(wrapper);
 
             $('<span>',{class: 'fa fa-picture-o'})
-                .appendTo(anchor);
+              .appendTo(anchor);
 
         }
         val.forEach(createMedia);
@@ -153,12 +171,12 @@ cs.datatype.media = function(val)  {
     return dt;
 };
 
-cs.datatype.geometry = function(val) {
+cs.datatype.geometry = function(val, feature, key) {
     var dt = {};
 
     var goTo = function (evt) {
         evt.stopPropagation();
-        cs.zoom2feature(cs.datatype.feature_);
+        cs.feature.zoom2feature(feature);
     };
 
     dt.getValue = function() {
@@ -168,29 +186,29 @@ cs.datatype.geometry = function(val) {
     dt.getFdValue = function() {
 
         var loc = $('<span>',{class: 'cs-datatype-geom-fd-loc'});
-
         var lon = val.lon.toFixed(4);
         var lat = val.lat.toFixed(4);
-
         $('<a>',{title : lon + ', '+ lat})
-            .html(lon + ', ' + lat)
-            .on('click', goTo)
-            .appendTo(loc);
-
+          .html(lon + ', ' + lat)
+          .on('click', goTo)
+          .appendTo(loc);
         return loc;
+    };
+
+    dt.getEditValue = function() {
+        return null;
     };
 
     dt.getDgValue = function() {
         var loc = $('<span>',{class: 'fa fa-map cs-datatype-geom-dg'})
-            .on('click', goTo)
-
+          .on('click', goTo);
         return loc;
     };
 
     return dt;
 };
 
-cs.datatype.priority = function(val) {
+cs.datatype.priority = function(val, feature, key) {
     var dt = {};
 
     dt.getValue = function() {
@@ -201,125 +219,152 @@ cs.datatype.priority = function(val) {
         return val
     };
 
-    dt.getDgValue = function() {
-        return val
-    };
+    dt.getEditValue = function() {
+        var sel = $('<select>', {name:key});
 
-    return dt;
-};
-
-cs.datatype.user = function(val) {
-    var dt = {};
-
-    dt.getValue = function() {
-        return val;
-    };
-
-    dt.getFdValue = function() {
-        return val
-    };
-
-    dt.getDgValue = function() {
-        return val
-    };
-
-    return dt;
-};
-
-cs.datatype.status = function(val) {
-    var dt = {};
-
-    dt.getValue = function() {
-        return val;
-    };
-
-    dt.getFdValue = function() {
-        return val
-    };
-
-    dt.getDgValue = function() {
-        return val
-    };
-
-    return dt;
-};
-
-cs.datatype.tags = function(val) {
-    var dt = {};
-
-    dt.getValue = function() {
-        return val;
-    };
-
-    dt.getFdValue = function() {
-        return val
-    };
-
-    dt.getDgValue = function() {
-        return val
-    };
-
-    return dt;
-};
+        var rOpt = function (priority) {
+            $('<option>',{value:priority, name:priority})
+              .html(priority)
+              .attr('selected',val == priority)
+              .appendTo(sel)
 
 
-cs.datatype.id = function(val) {
-    var dt = {};
-
-    dt.getValue = function() {
-        return val;
-    };
-
-    dt.getFdValue = function() {
-        return val
-    };
-
-    dt.getDgValue = function() {
-        return val
-    };
-
-    return dt;
-};
-
-cs.datatype.comments = function(val) {
-    var dt = {};
-
-    var val = val || [];
-
-    dt.getValue = function() {
-        return val;
-    };
-
-    dt.getFdValue = function() {
-        var wrapper = $('<div>', {class:'cs-datatype-comment-wrapper'});
-
-        var forEachComment = function(comment) {
-
-            var wrapperItem = $('<div>', {class:'cs-datatype-comment-item'})
-                .appendTo(wrapper);
-            $('<span>', {class:'cs-datatype-comment-user'})
-                .html(comment.user)
-                .appendTo(wrapperItem);
-            $('<span>', {class:'cs-datatype-comment-text'})
-                .html(comment.text)
-                .appendTo(wrapperItem);
         };
 
-        val.forEach(forEachComment);
+        if (cs.config_.hasOwnProperty('priorities')) {
+            cs.config_.priorities.forEach(rOpt);
+        }
 
-        return wrapper;
+        return sel
+    };
+
+
+    dt.getDgValue = function() {
+        return val
+    };
+
+    return dt;
+};
+
+cs.datatype.user = function(val, feature, key) {
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getEditValue = function() {
+        return null;
     };
 
     dt.getDgValue = function() {
-        var count = val.length;
-        return count;
+        return val
+    };
+
+    return dt;
+};
+
+cs.datatype.status = function(val, feature, key) {
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getEditValue = function() {
+        var sel = $('<select>', {name: key});
+
+        var rOpt = function (status) {
+            $('<option>',{value:status,name:status})
+              .html(status)
+              .attr('selected',val == status)
+              .appendTo(sel)
+        };
+
+        if (cs.config_.hasOwnProperty('statuses')) {
+            cs.config_.statuses.forEach(rOpt);
+        }
+
+        return sel
+    };
+
+    dt.getDgValue = function() {
+        return val
+    };
+
+    return dt;
+};
+
+cs.datatype.tags = function(val, feature, key) {
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getEditValue = function() {
+        var sel = $('<select>', {name: key});
+
+        var rOpt = function (status) {
+            $('<option>',{value:status,name:status})
+              .attr('selected',val == status)
+              .html(status)
+              .appendTo(sel)
+        };
+
+        if (cs.config_.hasOwnProperty('tags')) {
+            cs.config_.tags.forEach(rOpt);
+        } else {
+            return null;
+        }
+
+        return sel;
+    };
+
+    dt.getDgValue = function() {
+        return val
     };
 
     return dt;
 };
 
 
-cs.datatype.empty = function() {
+cs.datatype.id = function(val, feature, key) {
+    var dt = {};
+
+    dt.getValue = function() {
+        return val;
+    };
+
+    dt.getFdValue = function() {
+        return val
+    };
+
+    dt.getEditValue = function() {
+        return null;
+    };
+
+    dt.getDgValue = function() {
+        return val
+    };
+
+    return dt;
+};
+
+
+cs.datatype.empty = function(val, feature, key) {
     var dt = {};
 
     dt.getValue = function() {
@@ -330,25 +375,13 @@ cs.datatype.empty = function() {
         return '--';
     };
 
+    dt.getEditValue = function() {
+        return null;
+    };
+
     dt.getDgValue = function() {
         return '--';
     };
-
+    
     return dt;
-};
-
-
-cs.datatype.types_ = {
-    'string': cs.datatype.string,
-    'media': cs.datatype.media,
-    'datetime': cs.datatype.datetime,
-    'number': cs.datatype.number,
-    'priority': cs.datatype.priority,
-    'status': cs.datatype.status,
-    'comments': cs.datatype.comments,
-    'user': cs.datatype.user,
-    'tags': cs.datatype.tags,
-    'geometry': cs.datatype.geometry,
-    'id': cs.datatype.id,
-    'desc': cs.datatype.desc
 };
