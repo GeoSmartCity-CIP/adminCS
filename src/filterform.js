@@ -151,8 +151,6 @@ cs.filterform.onSubmitButtonClick_ = function(evt) {
         cs.events2features(res);
     };
 
-    console.info(cs.filterform.filterData_);
-
     gsc.cs.eventListFilter(cs.filterform.filterData_)
         .done(doneHandler_)
 

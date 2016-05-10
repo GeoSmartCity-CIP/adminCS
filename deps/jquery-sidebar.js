@@ -62,6 +62,7 @@ $.fn.sidebar = function(options) {
             $sidebar.trigger('opening');
             $sidebar.removeClass('collapsed');
         }
+        $container.scrollTop(0);
     };
 
     /**

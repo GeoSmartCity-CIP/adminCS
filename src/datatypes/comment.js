@@ -58,8 +58,12 @@ cs.datatype.comments.renderAddComment = function() {
     evt.preventDefault();
     evt.stopPropagation();
 
-    var commt = {
-      datetime : Date.now().toISOString(),
+    var value = input.val();
+
+    if (!value) return;
+
+      var commt = {
+      datetime : (new Date()).toString('yyyy-MM-ddTHH:mm:ss'),
       text: input.val(),
       user: {id:cs.user.name, password:cs.user.name}
     };
@@ -70,7 +74,12 @@ cs.datatype.comments.renderAddComment = function() {
       commt.user = cs.user.name || 'user';
       input.val('');
       cs.datatype.comments.renderComment(commt);
-      cs.datatype.comments.feature_.get('comments').push(commt)
+
+      if (cs.datatype.comments.feature_.get('comments')){
+        cs.datatype.comments.feature_.get('comments').push(commt);
+      } else {
+        cs.datatype.comments.feature_.set('comments',[commt]);
+      }
     };
 
     gsc.cs.eventComment(commt, cs.datatype.comments.feature_.get('id'))

@@ -74,13 +74,15 @@ cs.datagrid.renderTableItems = function() {
     };
 
     cs.datagrid.data_.forEach(renderRows_);
-    cs.datagrid.showTable();
+    cs.datagrid.appendTable();
 };
 
 
-cs.datagrid.showTable = function() {
-    cs.sideBar_.open('datagrid');
+cs.datagrid.appendTable = function() {
     cs.sideBar_.find('#datagridContent').empty().append(cs.datagrid.table_);
     cs.datagrid.table_.DataTable({"bPaginate": false});
+};
 
+cs.datagrid.rerenderDg = function(){
+    cs.datagrid.updateData();
 };

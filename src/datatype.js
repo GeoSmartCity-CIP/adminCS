@@ -106,8 +106,12 @@ cs.datatype.datetime = function(val, feature, key) {
     };
 
     dt.getEditValue = function() {
-        var input = $('<input>', {type:'date', name:key})
-          .val(Date.parse(val));
+        var date = val || (new Date()).toString('yyyy-MM-ddTHH:mm:ss');
+
+        var input = $('<input>', {type:'datetime-local', name:key})
+          .val(date);
+
+
         return input;
     };
 
@@ -176,7 +180,7 @@ cs.datatype.geometry = function(val, feature, key) {
 
     var goTo = function (evt) {
         evt.stopPropagation();
-        cs.feature.zoom2feature(feature);
+        cs.feature.zoom2feature(feature, 15, cs.datagrid.width);
     };
 
     dt.getValue = function() {

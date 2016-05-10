@@ -69,7 +69,6 @@ cs.user.logOut = function(){
 
 cs.user.renderLoginForm = function(querySelector) {
 
-
   cs.user.wrapper = querySelector;
 
   cs.user.userProfile.hide();
@@ -82,8 +81,9 @@ cs.user.renderLoginForm = function(querySelector) {
     .appendTo(cs.user.loginForm);
 
   $('<legend>')
-    .html('Login:')
+    .html('Sign in')
     .appendTo(fieldset);
+
   $('<div>')
     .html('Username:<br>')
     .appendTo(fieldset);
@@ -107,7 +107,7 @@ cs.user.renderLoginForm = function(querySelector) {
     .appendTo(fieldset);
 
   $('<button>', {type:'submit', class: "btn btn-md btn-primary pull-right"})
-    .html('log in')
+    .html('<i class="fa fa-sign-in" aria-hidden="true"> sign in')
     .on('click',function(evt){
       cs.user.authenticate(username.val(),password.val());
       evt.preventDefault();
@@ -122,47 +122,47 @@ cs.user.renderUserProfile = function() {
   cs.user.userProfile.empty();
   cs.user.loginForm.hide();
 
-  cs.user.userProfile = $('<div>',{class:''})
+  cs.user.userProfile = $('<div>', {class:'cs-user-userProfile-profile'})
     .appendTo(cs.user.wrapper);
 
-  var fieldset = $('<fielset>', {class:'cs-user-userProfile-profile'})
+  var fieldset = $('<fielset>')
     .appendTo(cs.user.userProfile);
 
 
   $('<legend>')
-    .html('Logged as:')
+    .html('User data')
     .appendTo(fieldset);
 
   $('<div>', {class:'cs-user-userProfile-profile-label text-muted'})
-    .html('Username')
+    .html('<i class="fa fa-user" aria-hidden="true"> Username')
     .appendTo(fieldset);
   $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.name)
     .appendTo(fieldset);
 
   $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
-    .html('Email')
+    .html('<i class="fa fa-envelope-o" aria-hidden="true"> Email')
     .appendTo(fieldset);
   $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.email)
     .appendTo(fieldset);
 
   $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
-    .html('Role')
+    .html('<i class="fa fa-shield" aria-hidden="true"> Role')
     .appendTo(fieldset);
   $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.role)
     .appendTo(fieldset);
 
   $('<div>',{class:'cs-user-userProfile-profile-label text-muted'})
-    .html('Organization')
+    .html('<i class="fa fa-sitemap" aria-hidden="true"> Organization')
     .appendTo(fieldset);
   $('<div>', {class:'cs-user-userProfile-profile-item'})
     .html(cs.user.organization + '<br><br>')
     .appendTo(fieldset);
 
   $('<button>', {class:'btn btn-default pull-right'})
-    .html('Log out')
+    .html('<i class="fa fa-sign-out" aria-hidden="true"> Sign out')
     .on('click',cs.user.logOut)
     .appendTo(fieldset);
 

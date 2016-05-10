@@ -50,6 +50,7 @@
 
     <div class="sidebar-tabs">
         <ul role="tablist">
+            <li><a href="#info" role="tab"><i class="fa fa-info"></i></a></li>
             <li><a href="#userProfile" role="tab"><i class="fa fa-user"></i></a></li>
             <li><a href="#filter" role="tab"><i class="fa fa-filter"></i></a></li>
             <li><a href="#datagrid" role="tab"><i class="fa fa-table"></i></a></li>
@@ -65,6 +66,26 @@
     <div class="sidebar-content">
         <div class="sidebar-pane" id="caret"> </div>
 
+
+        <!-- INFO -->
+        <div class="sidebar-pane" id="info">
+            <h1 class="sidebar-header">
+                Welcome
+                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+            </h1>
+            <div id="infoContent" class="container">
+                <h3> welcome on crowd-sourcing administration platform</h3>
+                <p>
+                    <div>For start please sign up</div> <br/>
+                    <button class="btn btn-default" onclick="cs.sideBar_.open('userProfile')">sign up</button>
+                </p>
+                <p>
+                    <div>Or open datagrind</div> <br/>
+                    <button class="btn btn-default" onclick="cs.sideBar_.open('datagrid')">datagrid</button>
+                </p>
+            </div>
+
+        </div>
 
         <!-- USER PROFILE -->
         <div class="sidebar-pane" id="userProfile">

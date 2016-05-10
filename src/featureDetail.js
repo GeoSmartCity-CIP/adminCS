@@ -53,6 +53,7 @@ cs.featureDetail.renderProperties = function(){
 
 
 cs.featureDetail.renderToolButtons = function() {
+
     var toolBar = cs.featureDetail.toolButtons =  $('<div>', {class : 'gs-featureDetail-toolButtons btn-toolbar', role:'toolbar', 'aria-label': 'neco'})
       .appendTo(cs.featureDetail.featureElement_);
     var btnGroup = $('<div>', {class : 'btn-group', role:'group', 'aria-label': 'neco'})
@@ -64,11 +65,21 @@ cs.featureDetail.renderToolButtons = function() {
       .on('click', function(){cs.feature.zoom2feature(cs.featureDetail.feature_, 15)});
 
 
+    $('<button>', {class : 'btn btn-default'})
+      .appendTo(btnGroup)
+      .html('<i class="fa fa-comments-o"></i>')
+      .on('click', function(){
+          cs.sideBar_.find('.sidebar-content').animate({ scrollTop: $('#featureDetailContent').height() }, 1000);
+          this.blur();
+      });
+
     cs.featureDetail.btnGroupSecure = $('<div>', {class : 'btn-group ', role:'group', 'aria-label': 'neco'})
-      .hide()
       .appendTo(toolBar);
 
-    
+    if (!cs.user.isAuthorized){
+        cs.featureDetail.btnGroupSecure.hide();
+    }
+
     $('<button>', {class : 'btn btn-default'})
       .appendTo(cs.featureDetail.btnGroupSecure)
       .html('<i class="fa fa-edit"></i>')
@@ -77,12 +88,10 @@ cs.featureDetail.renderToolButtons = function() {
     $('<button>', {class : 'btn btn-default'})
       .appendTo(cs.featureDetail.btnGroupSecure)
       .html('<i class="fa fa-trash"></i>')
-      .on('click', function(){})
+      .on('click', function(){
+          console.log('Event removal is not yet implemented!')
+      });
 
-    $('<button>', {class : 'btn btn-default'})
-      .appendTo(cs.featureDetail.btnGroupSecure)
-      .html('<i class="fa fa-comments-o"></i>')
-      .on('click', function(){})
 };
 
 
@@ -98,14 +107,16 @@ cs.featureDetail.renderEditableForm = function(){
         var item = cs.datatype.constructor(cs.featureDetail.feature_, key, properties[key] );
         var editValue = item.getEditValue();
         if (editValue) {
+
             var formGroup = $('<fieldset>',{ class:'form-group'})
               .appendTo(cs.featureDetail.form_);
             $('<label>',{for: key, class: 'cs-featureDetail-form-label'})
               .html(key)
               .appendTo(formGroup);
+
             editValue.addClass('cs-featureDetail-form-item')
-            editValue.addClass('form-control')
-            editValue.appendTo(formGroup);
+              .addClass('form-control')
+              .appendTo(formGroup);
         }
     }
     cs.featureDetail.renderButtons();
@@ -129,7 +140,7 @@ cs.featureDetail.renderButtons = function() {
       .on('click', function(evt){evt.preventDefault();cs.featureDetail.switchToProperties();})
       .appendTo(wrapper);
 
-    $('<button>',{type: 'submit', class: 'btn btn-default'})
+    $('<button>',{type: 'submit', class: 'btn btn-default btn-primary'})
       .html('Submit')
       .on('click',cs.featureDetail.onSubmitButtonClick_)
       .appendTo(wrapper);
@@ -148,23 +159,26 @@ cs.featureDetail.onSubmitButtonClick_ = function(evt) {
 
     gsc.cs.eventUpdate(data)
       .done( function (evt) {
-          console.log(evt)
+          cs.feature.updateProperties(cs.featureDetail.feature_, data);
       }).fail(
       function (evt) {
-          console.log(evt)
+          cs.feature.updateProperties(cs.featureDetail.feature_, data);
       }
     )
 
 };
-
 
 cs.featureDetail.switchToEdit = function() {
     cs.featureDetail.wrapper.empty();
     cs.featureDetail.renderEditableForm();
 };
 
-
 cs.featureDetail.switchToProperties = function() {
+    cs.featureDetail.wrapper.empty();
+    cs.featureDetail.renderProperties();
+};
+
+cs.featureDetail.rerenderFd = function(){
     cs.featureDetail.wrapper.empty();
     cs.featureDetail.renderProperties();
 };

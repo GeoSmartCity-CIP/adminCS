@@ -23,11 +23,13 @@ cs.feature.event2feature = function(event){
 };
 
 
-cs.feature.zoom2feature = function(feature, maxZoom) {
+cs.feature.zoom2feature = function(feature, maxZoom, leftPadding) {
 
   var padding = [0, 0, 0, 0];
 
-  if (cs.sideBar_.width() < cs.map_.getSize()[0] ) {
+  if (leftPadding) {
+    padding = [0, 0, 0, leftPadding]
+  } else if (cs.sideBar_.width() < cs.map_.getSize()[0] ) {
     padding = [0, 0, 0, cs.sideBar_.width()]
   }
 
@@ -59,6 +61,14 @@ cs.feature.renderFeaturePopup = function(feature) {
   return wrapper;
 };
 
+cs.feature.updateProperties = function(feature, properties){
+  for (key in properties) {
+    var value = properties[key];
+    feature.set(key,value);
+  }
+  cs.featureDetail.rerenderFd();
+  cs.datagrid.rerenderDg();
+};
 
 
 cs.feature.styleCache = {};

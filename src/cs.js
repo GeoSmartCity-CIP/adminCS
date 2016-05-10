@@ -24,7 +24,8 @@ cs.init = function (map) {
 
     map.addOverlay(cs.popup_);
 
-    this.getConfig();
+    this.getConfig()
+      .done(function(){cs.sideBar_.open('info')});
 
     this.initEvents();
 };
@@ -56,7 +57,7 @@ cs.events2features = function(events){
     });
 
     if (cs.sourceIsInMap){
-        cs.fit2features();
+        cs.fit2features(270);
     } else {
         cs.source2map();
     }
@@ -73,13 +74,14 @@ cs.source2map = function() {
     });
     cs.map_.addLayer(cs.layer_);
     cs.sourceIsInMap = true;
-    cs.fit2features();
+    cs.fit2features(250);
 };
 
 
-cs.fit2features = function() {
+cs.fit2features = function(width) {
+    var width = width || cs.sideBar_.width();
     var extent = cs.eventSource_.getExtent();
-    cs.map_.getView().fit(extent,cs.map_.getSize(),{'padding' : [10, 10, 10, cs.sideBar_.width()], 'maxZoom': 15});
+    cs.map_.getView().fit(extent,cs.map_.getSize(),{'padding' : [10, 10, 10, width], 'maxZoom': 15});
 };
 
 cs.initSideBar = function() {
@@ -106,6 +108,10 @@ cs.initSideBar = function() {
             case 'featureDetail':
                 cs.sideBar_.width(cs.featureDetail.width);
                 pane.css('min-width',cs.featureDetail.width-150);
+                break;
+            case 'info':
+                cs.sideBar_.width(300);
+                pane.css('min-width',300-150);
                 break;
             default:
                 cs.sideBar_.removeAttr('style')
@@ -177,7 +183,8 @@ cs.getConfig = function() {
         cs.filterform('#filterWrapper');
     };
     var promise = gsc.cs.getConfig()
-      .done(promiseDone)
+      .done(promiseDone);
+    return promise;
 };
 
 cs.evSchema = {

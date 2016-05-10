@@ -2,13 +2,12 @@ body {
     padding: 0;
     margin: 0;
     overflow: hidden;
-    font-family: Tahoma, Geneva, sans-serif !important;
     box-sizing: border-box !important;
 }
 
 html, body, #map {
     height: 100%;
-    font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif !important;
 }
 
 .ol-control {
@@ -248,4 +247,9 @@ html, body, #map {
 }
 .sidebar {
     overflow: hidden;
+}
+
+#infoContent {
+    overflow-x: hidden;
+    width:250px;
 }
