@@ -14,7 +14,7 @@ git clone https://github.com/GeoSmartCity-CIP/gsc-adminCS.git
 # to install package (dependecies,...)
 npm install
 
-# to build entire project 
+# to build entire project (not yet implemented)
 grunt
 
 ```
