@@ -6,10 +6,12 @@ var options = {
 
 
 // map initializing
-var gscMap = gsc.map.Map('map',options);
+gsc.map.create('map',options);
 
+var gscMap = gsc.map.getOlMap();
 
-cs.init(gscMap.getOlMap());
+cs.init(gscMap);
+
 cs.initSideBar();
 
 
@@ -41,10 +43,6 @@ var layerOSM =  new ol.layer.Tile({
     source: new ol.source.OSM()
 });
 
-
-var layerMapQuest =  new ol.layer.Tile({
-    source: new ol.source.MapQuest({layer: 'osm'})
-});
 
 var statemenLayer =  new ol.layer.Tile({
     source: new ol.source.Stamen({
