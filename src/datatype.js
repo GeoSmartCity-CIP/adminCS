@@ -50,7 +50,7 @@ cs.datatype.desc = function(val, feature, key){
     };
 
     dt.getDgValue = function() {
-        if (val.length > 10 ) {
+        if (val && val.length > 10 ) {
             return val.slice(0,10) + ' ...'
         } else {
             return val;
@@ -180,7 +180,7 @@ cs.datatype.geometry = function(val, feature, key) {
 
     var goTo = function (evt) {
         evt.stopPropagation();
-        cs.feature.zoom2feature(feature, 15, cs.datagrid.width);
+        cs.feature.zoom2feature(feature, 22);
     };
 
     dt.getValue = function() {

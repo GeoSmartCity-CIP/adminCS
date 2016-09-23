@@ -137,15 +137,22 @@ html, body, #map {
 .cs-feature-popup-item-wrapper {
     cursor: pointer;
     margin: 1px;
-    min-width: 250px;
+    max-width: 200px;
+    min-width: 50px;
+    width: 100%;
 }
 
 .cs-feature-popup-item-wrapper:hover {
-    background-color: #99bbdd;
+    color: #5f7489;
 }
 
-.cs-feature-popup-item-name, .cs-feature-popup-item-icon {
+.cs-feature-popup-item-name {
+    margin-left: 30px;
+}
+
+.cs-feature-popup-item-icon {
     padding: 4px;
+    position: absolute;
 }
 
 .cs-filterform-form {

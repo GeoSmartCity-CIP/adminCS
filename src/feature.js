@@ -12,6 +12,7 @@ cs.feature.event2feature = function(event){
     name: 'event'
   });
 
+
   if (event.status == 'created') {
     feature.setStyle(cs.feature.icon.ok);
   } else {
@@ -19,6 +20,8 @@ cs.feature.event2feature = function(event){
   }
   feature.setId(event.id);
   feature.setProperties(event);
+
+  feature.set('label', cs.fLabel(feature));
   return feature;
 };
 
@@ -53,11 +56,8 @@ cs.feature.renderFeaturePopup = function(feature) {
     .on('click',goTo);
 
   $('<span>', {class:'fa fa-info-circle cs-feature-popup-item-icon'}).appendTo(wrapper);
-  // $('<span>', {class: 'cs-feature-popup-item-name'}).html(feature.get('name')).appendTo(wrapper);
-  $('<span>', {class: 'cs-feature-popup-item-name'}).html('<b>status:</b> '+ feature.get('status') +', <b>priority:</b> '+ feature.get('priority')).appendTo(wrapper);
-  if (feature.get('media').length > 0) {
-    $('<img>', {class: 'cs-feature-popup-item-name', src:feature.get('media')[0].src }).appendTo(wrapper);
-  } 
+
+  $('<span>', {class: 'cs-feature-popup-item-name'}).html('<b>'+ feature.get('label') + '</b>' ).appendTo(wrapper);
   return wrapper;
 };
 

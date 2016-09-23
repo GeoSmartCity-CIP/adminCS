@@ -2,9 +2,10 @@ var cs = cs || {};
 
 cs.featureDetail = function(feature) {
     cs.featureDetail.feature_ = feature;
-    cs.feature.zoom2feature(feature);
+    //cs.feature.zoom2feature(feature);
     cs.featureDetail.renderFeature();
     cs.featureDetail.showDetail();
+    $('.sidebar-header-text').html(feature.get('label'));
     return this;
 };
 
@@ -62,7 +63,7 @@ cs.featureDetail.renderToolButtons = function() {
     $('<button>', {class : 'btn btn-default'})
       .appendTo(btnGroup)
       .html('<i class="fa fa-map-marker"></i>')
-      .on('click', function(){cs.feature.zoom2feature(cs.featureDetail.feature_, 15)});
+      .on('click', function(){cs.feature.zoom2feature(cs.featureDetail.feature_, 22)});
 
 
     $('<button>', {class : 'btn btn-default'})
