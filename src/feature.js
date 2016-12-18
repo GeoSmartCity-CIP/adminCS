@@ -22,6 +22,16 @@ cs.feature.event2feature = function(event){
   feature.setProperties(event);
 
   feature.set('label', cs.fLabel(feature));
+
+  if (event.status == 'submitted' ||
+      event.status == 'Null' ||
+      event.status == 'null' ||
+      event.status == null ) {
+    var emptyImgStyle = new ol.style.Style({ image: '' });
+    feature.setStyle(emptyImgStyle);
+  }
+
+
   return feature;
 };
 
@@ -158,5 +168,3 @@ cs.feature.icon.ok  = new ol.style.Style({
     src: 'images/icons/star.svg'
   }))
 });
-
-
